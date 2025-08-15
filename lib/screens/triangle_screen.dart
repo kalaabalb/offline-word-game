@@ -3,46 +3,133 @@ import '../services/data_service.dart';
 import '../widgets/triangle_box.dart';
 import '../models/game_set.dart';
 
-class TriangleScreen extends StatelessWidget {
-  const TriangleScreen({super.key});
+class TriangleScreen extends StatefulWidget {
+  final int setId;
 
-  void _navigateToQuestion(BuildContext context, int setId, int questionIndex) {
+  const TriangleScreen({super.key, required this.setId});
+
+  @override
+  State<TriangleScreen> createState() => _TriangleScreenState();
+}
+
+class _TriangleScreenState extends State<TriangleScreen> {
+  late GameSet gameSet;
+  String? currentTeam;
+  int team1Score = 0;
+  int team2Score = 0;
+  List<bool> playedQuestions = List.filled(6, false);
+  String team1Name = 'Team 1';
+  String team2Name = 'Team 2';
+  bool showWinner = false;
+
+  @override
+  void initState() {
+    super.initState();
+    gameSet = DataService().getGameSetById(widget.setId)!;
+  }
+
+  void _navigateToQuestion(int questionIndex) {
+    if (currentTeam == null) return;
+    if (playedQuestions[questionIndex]) return;
+
     Navigator.pushNamed(
       context,
       '/start',
       arguments: {
-        'setId': setId,
+        'setId': widget.setId,
         'questionIndex': questionIndex,
+        'currentTeam': currentTeam,
+      },
+
+    ).then((shouldProceed) {
+      if (shouldProceed == true) {
+        Navigator.pushNamed(
+          context,
+          '/question',
+          arguments: {
+            'setId': widget.setId,
+            'questionIndex': questionIndex,
+            'currentTeam': currentTeam,
+          },
+
+        ).then((score) {
+          if (score != null) {
+            setState(() {
+              playedQuestions[questionIndex] = true;
+              if (currentTeam == team1Name) {
+                team1Score += score as int;
+              } else {
+                team2Score += score as int;
+              }
+
+              if (!playedQuestions.every((played) => played)) {
+                currentTeam = currentTeam == team1Name ? team2Name : team1Name;
+              } else {
+                showWinner = true;
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+
+  void _editTeamName(bool isTeam1) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final controller = TextEditingController(
+            text: isTeam1 ? team1Name : team2Name);
+        return AlertDialog(
+          title: Text('Edit ${isTeam1 ? team1Name : team2Name}'),
+          content: TextField(
+            controller: controller,
+            decoration: const InputDecoration(
+              labelText: 'Team Name',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  if (isTeam1) {
+                    team1Name = controller.text;
+                  } else {
+                    team2Name = controller.text;
+                  }
+                });
+                Navigator.pop(context);
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final int setId = ModalRoute.of(context)!.settings.arguments as int;
-    final GameSet? gameSet = DataService().getGameSetById(setId);
-
-    if (gameSet == null) {
-      return Scaffold(
-        appBar: AppBar(title: const Text("Error")),
-        body: const Center(child: Text("Set not found")),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
-        title: Text("Set $setId"),
+        title: Text("Set ${widget.setId}"),
+        backgroundColor: Colors.deepPurple,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFE1F5FE), Color(0xFFB3E5FC)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF4A90E2), Color(0xFF50E3C2)],
           ),
         ),
         child: Center(
@@ -50,85 +137,159 @@ class TriangleScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Top box
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TriangleBox(
-                      text: gameSet.questions[0].word,
-                      color: Colors.purple,
-                      onTap: () => _navigateToQuestion(context, setId, 0),
-                    ),
-                    const SizedBox(width: 20),
-                  ],
+                // Team Selection
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildTeamButton(team1Name, team1Score, true),
+                      const SizedBox(width: 20),
+                      _buildTeamButton(team2Name, team2Score, false),
+                    ],
+                  ),
                 ),
 
-                const SizedBox(height: 20),
+                // Current turn indicator
+                if (currentTeam != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      "$currentTeam's turn",
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
 
-                // Middle boxes
+                // Triangle structure
+                TriangleBox(
+                  text: gameSet.questions[0].word,
+                  color: playedQuestions[0] ? Colors.grey : Colors.purple,
+                  onTap: () => _navigateToQuestion(0),
+                  enabled: currentTeam != null && !playedQuestions[0],
+                ),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TriangleBox(
                       text: gameSet.questions[1].word,
-                      color: Colors.blue,
-                      onTap: () => _navigateToQuestion(context, setId, 1),
+                      color: playedQuestions[1] ? Colors.grey : Colors.blue,
+                      onTap: () => _navigateToQuestion(1),
+                      enabled: currentTeam != null && !playedQuestions[1],
                     ),
                     const SizedBox(width: 20),
                     TriangleBox(
                       text: gameSet.questions[2].word,
-                      color: Colors.green,
-                      onTap: () => _navigateToQuestion(context, setId, 2),
+                      color: playedQuestions[2] ? Colors.grey : Colors.green,
+                      onTap: () => _navigateToQuestion(2),
+                      enabled: currentTeam != null && !playedQuestions[2],
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 20),
-
-                // Bottom boxes
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TriangleBox(
                       text: gameSet.questions[3].word,
-                      color: Colors.orange,
-                      onTap: () => _navigateToQuestion(context, setId, 3),
+                      color: playedQuestions[3] ? Colors.grey : Colors.orange,
+                      onTap: () => _navigateToQuestion(3),
+                      enabled: currentTeam != null && !playedQuestions[3],
                     ),
                     const SizedBox(width: 20),
                     TriangleBox(
                       text: gameSet.questions[4].word,
-                      color: Colors.red,
-                      onTap: () => _navigateToQuestion(context, setId, 4),
+                      color: playedQuestions[4] ? Colors.grey : Colors.red,
+                      onTap: () => _navigateToQuestion(4),
+                      enabled: currentTeam != null && !playedQuestions[4],
                     ),
                     const SizedBox(width: 20),
                     TriangleBox(
                       text: gameSet.questions[5].word,
-                      color: Colors.teal,
-                      onTap: () => _navigateToQuestion(context, setId, 5),
+                      color: playedQuestions[5] ? Colors.grey : Colors.teal,
+                      onTap: () => _navigateToQuestion(5),
+                      enabled: currentTeam != null && !playedQuestions[5],
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 30),
-
-                // Instructions
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    "Tap any word to start the question round",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[700],
-                      fontStyle: FontStyle.italic,
+                if (showWinner)
+                  AlertDialog(
+                    title: const Text('Game Over!'),
+                    content: Text(
+                      team1Score > team2Score
+                          ? '$team1Name WINS! ($team1Score - $team2Score)'
+                          : team2Score > team1Score
+                          ? '$team2Name WINS! ($team2Score - $team1Score)'
+                          : 'DRAW! ($team1Score - $team2Score)',
+                      style: const TextStyle(fontSize: 18),
                     ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            showWinner = false;
+                            currentTeam = null;
+                            team1Score = 0;
+                            team2Score = 0;
+                            playedQuestions = List.filled(6, false);
+                          });
+                        },
+                        child: const Text('Play Again'),
+                      ),
+                    ],
                   ),
-                ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTeamButton(String teamName, int score, bool isTeam1) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              currentTeam = teamName;
+            });
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: currentTeam == teamName
+                ? (isTeam1 ? Colors.blue : Colors.green)
+                : Colors.grey,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(teamName, style: const TextStyle(fontSize: 16)),
+              IconButton(
+                icon: const Icon(Icons.edit, size: 16),
+                onPressed: () => _editTeamName(isTeam1),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Score: $score',
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }

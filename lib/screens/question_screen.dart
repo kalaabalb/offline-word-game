@@ -15,6 +15,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   late GameSet gameSet;
   late int setId;
   late int questionIndex;
+  late String currentTeam;
 
   int currentAnswerIndex = 0;
   int answeredCount = 0;
@@ -30,6 +31,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
     setId = args['setId'];
     questionIndex = args['questionIndex'];
+    currentTeam = args['currentTeam'];
 
     gameSet = DataService().getGameSetById(setId)!;
     answered = List.filled(gameSet.questions[questionIndex].answers.length, false);
@@ -40,9 +42,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
     timer?.cancel();
     timer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (timerSeconds > 0) {
-        setState(() {
-          timerSeconds--;
-        });
+        setState(() => timerSeconds--);
       } else {
         t.cancel();
         setState(() {
@@ -59,13 +59,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
     setState(() {
       answered[currentAnswerIndex] = true;
       answeredCount++;
-
-      // Move to next unanswered question
       final nextUnanswered = _getNextUnansweredIndex();
       if (nextUnanswered != -1) {
         currentAnswerIndex = nextUnanswered;
       } else if (answeredCount >= 7) {
-        // All questions answered
         timer?.cancel();
         setState(() {
           isTimeUp = true;
@@ -78,9 +75,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   void nextAnswer() {
     final nextUnanswered = _getNextUnansweredIndex();
     if (nextUnanswered != -1) {
-      setState(() {
-        currentAnswerIndex = nextUnanswered;
-      });
+      setState(() => currentAnswerIndex = nextUnanswered);
     } else if (answeredCount >= 7) {
       setState(() {
         isTimeUp = true;
@@ -93,27 +88,23 @@ class _QuestionScreenState extends State<QuestionScreen> {
     for (int i = (currentAnswerIndex + 1) % gameSet.questions[questionIndex].answers.length;
     i != currentAnswerIndex;
     i = (i + 1) % gameSet.questions[questionIndex].answers.length) {
-      if (!answered[i]) {
-        return i;
-      }
+      if (!answered[i]) return i;
     }
-    return -1; // All questions answered
+    return -1;
   }
 
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
+  int calculateScore() {
+    return answeredCount + (timerSeconds ~/ 5); // 1 point per answer + time bonus
   }
 
   @override
   Widget build(BuildContext context) {
+    if (showResults) {
+      return _buildResultsScreen();
+    }
+
     final question = gameSet.questions[questionIndex];
     final currentAnswer = question.answers[currentAnswerIndex];
-
-    if (showResults) {
-      return _buildResultsScreen(question);
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -148,7 +139,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Question card
             Card(
               elevation: 4,
               shape: RoundedRectangleBorder(
@@ -165,10 +155,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 ),
               ),
             ),
-
             const Spacer(),
-
-            // Current answer display
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
@@ -196,10 +183,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 ),
               ),
             ),
-
             const Spacer(),
-
-            // Progress indicator
             LinearProgressIndicator(
               value: answeredCount / 7,
               backgroundColor: Colors.grey[200],
@@ -211,10 +195,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
               "Answered: $answeredCount/7",
               style: const TextStyle(fontSize: 16),
             ),
-
             const SizedBox(height: 20),
-
-            // Buttons row
             Row(
               children: [
                 Expanded(
@@ -267,14 +248,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
     );
   }
 
-  Widget _buildResultsScreen(QuestionData question) {
+  Widget _buildResultsScreen() {
+    final question = gameSet.questions[questionIndex];
+    final score = calculateScore();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(question.word),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -288,6 +269,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.red,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "$currentTeam Score: $score",
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -335,9 +324,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 15
+                    ),
                   ),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pop(context, score),
                   child: const Text(
                     "BACK TO TRIANGLE",
                     style: TextStyle(fontSize: 18),
@@ -349,5 +341,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 }

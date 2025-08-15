@@ -6,8 +6,7 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
-    final int setId = args['setId'];
-    final int questionIndex = args['questionIndex'];
+    final String currentTeam = args['currentTeam'];
 
     return Scaffold(
       body: Container(
@@ -22,9 +21,9 @@ class StartScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'READY TO PLAY?',
-                style: TextStyle(
+              Text(
+                '$currentTeam, READY?',
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -34,22 +33,16 @@ class StartScreen extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.amber,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 20
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                   elevation: 8,
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/question',
-                    arguments: {
-                      'setId': setId,
-                      'questionIndex': questionIndex,
-                    },
-                  );
-                },
+                onPressed: () => Navigator.pop(context, true),
                 child: const Text(
                   'START',
                   style: TextStyle(
@@ -61,7 +54,7 @@ class StartScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.pop(context, false),
                 child: const Text(
                   'BACK',
                   style: TextStyle(

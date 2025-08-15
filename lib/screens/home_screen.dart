@@ -9,30 +9,20 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> {
   final DataService dataService = DataService();
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    dataService.loadInitialData();
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..repeat(reverse: true);
-
-    _animation = Tween<double>(begin: -5, end: 5).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    );
+    _loadData();
   }
 
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
+  Future<void> _loadData() async {
+    setState(() => isLoading = true);
+    await dataService.loadGameSets();
+    setState(() => isLoading = false);
   }
 
   @override
@@ -41,114 +31,153 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text(
-          'MAN YASHENIFAL',
+          'ማን ያሸንፋል?',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Colors.white,
             shadows: [
-            Shadow(
-            blurRadius: 4,
-            color: Colors.black45,
-            offset: Offset(2, 2),
-            ) ],
+              Shadow(
+                blurRadius: 4,
+                color: Colors.black45,
+                offset: Offset(2, 2),
+              ),
+            ],
           ),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF1565C0), Color(0xFF0D47A1)],
+      body: Stack(
+        children: [
+          // Animated Gradient Background
+          AnimatedContainer(
+            duration: const Duration(seconds: 10),
+            decoration: BoxDecoration(
+              gradient: SweepGradient(
+                center: Alignment.center,
+                colors: [
+                  Colors.blue.shade800,
+                  Colors.purple.shade600,
+                  Colors.deepOrange.shade400,
+                  Colors.blue.shade800,
+                ],
+                stops: const [0.0, 0.3, 0.6, 1.0],
+              ),
+            ),
           ),
-        ),
-        child: Stack(
-          children: [
-            // Animated floating elements
-            Positioned(
-              top: 100,
-              left: 50,
-              child: AnimatedBuilder(
-                animation: _animation,
-                builder: (context, child) {
-                  return Transform.translate(
-                    offset: Offset(0, _animation.value),
-                    child: const Icon(
-                      Icons.star,
-                      size: 40,
-                      color: Colors.white24,
-                    ),
-                  );
-                },
-              ),
-            ),
-            Positioned(
-              bottom: 150,
-              right: 30,
-              child: AnimatedBuilder(
-                animation: _animation,
-                builder: (context, child) {
-                  return Transform.translate(
-                    offset: Offset(0, -_animation.value),
-                    child: const Icon(
-                      Icons.circle,
-                      size: 60,
-                      color: Colors.white10,
-                    ),
-                  );
-                },
-              ),
-            ),
 
-            // Main content
-            Padding(
-              padding: const EdgeInsets.only(top: 100),
-              child: GridView.builder(
-                padding: const EdgeInsets.all(20),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
-                  childAspectRatio: 1.2,
-                ),
-                itemCount: dataService.gameSets.length,
-                itemBuilder: (context, index) {
-                  final set = dataService.gameSets[index];
-                  return AnimatedBuilder(
-                    animation: _animationController,
-                    builder: (context, child) {
-                      return Transform.rotate(
-                        angle: _animation.value * 0.01,
-                        child: NumberedBox(
-                          number: set.id,
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/triangle',
-                              arguments: set.id,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  );
-                },
+          // Floating Bubbles - Fixed syntax
+          Positioned(
+            top: 100,
+            left: 50,
+            child: _FloatingBubble(size: 80, color: Colors.white.withOpacity(0.1)),
+          ),
+          Positioned(
+            bottom: 200,
+            right: 30,
+            child: _FloatingBubble(size: 120, color: Colors.white.withOpacity(0.08)),
+          ),
+          Positioned(
+            top: 300,
+            right: 100,
+            child: _FloatingBubble(size: 60, color: Colors.white.withOpacity(0.15)),
+          ),
+
+          // Content
+          isLoading
+              ? const Center(child: CircularProgressIndicator(color: Colors.white))
+              : Padding(
+            padding: const EdgeInsets.only(top: 100),
+            child: GridView.builder(
+              padding: const EdgeInsets.all(20),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
               ),
+              itemCount: dataService.gameSets.length,
+              itemBuilder: (context, index) {
+                final set = dataService.gameSets[index];
+                return NumberedBox(
+                  number: set.id,
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/triangle',
+                      arguments: set.id,
+                    );
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add_set');
+        onPressed: () async {
+          await Navigator.pushNamed(context, '/add_set');
+          await _loadData();
         },
-        backgroundColor: Colors.amber,
-        child: const Icon(Icons.add, color: Colors.black),
+        backgroundColor: Colors.orangeAccent,
+        elevation: 8,
+        child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
     );
+  }
+}
+
+class _FloatingBubble extends StatefulWidget {
+  final double size;
+  final Color color;
+
+  const _FloatingBubble({required this.size, required this.color});
+
+  @override
+  State<_FloatingBubble> createState() => _FloatingBubbleState();
+}
+
+class _FloatingBubbleState extends State<_FloatingBubble> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat(reverse: true);
+
+    _animation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0.5, 0.3),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: _animation,
+      child: Container(
+        width: widget.size,
+        height: widget.size,
+        decoration: BoxDecoration(
+          color: widget.color,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

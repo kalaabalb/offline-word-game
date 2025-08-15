@@ -13,15 +13,14 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
   final TextEditingController questionController = TextEditingController();
   final List<TextEditingController> answerControllers =
   List.generate(7, (_) => TextEditingController());
-  final List<FocusNode> answerFocusNodes = List.generate(7, (_) => FocusNode());
-  int currentAnswerIndex = 0;
 
   @override
   void dispose() {
     wordController.dispose();
     questionController.dispose();
-    for (var c in answerControllers) c.dispose();
-    for (var f in answerFocusNodes) f.dispose();
+    for (var c in answerControllers) {
+      c.dispose();
+    }
     super.dispose();
   }
 
@@ -45,24 +44,22 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
     final Function(QuestionData) onSave = args['onSave'];
     onSave(newQuestion);
 
-    // Reset form for next question
     if (args['currentIndex'] < 5) {
       wordController.clear();
       questionController.clear();
-      for (var c in answerControllers) c.clear();
-      currentAnswerIndex = 0;
-      FocusScope.of(context).requestFocus(answerFocusNodes[0]);
+      for (var c in answerControllers) {
+        c.clear();
+      }
+      Navigator.pushNamed(
+        context,
+        '/add_question',
+        arguments: {
+          'onSave': onSave,
+          'currentIndex': args['currentIndex'] + 1,
+        },
+      );
     } else {
       Navigator.popUntil(context, (route) => route.isFirst);
-    }
-  }
-
-  void _nextAnswerField() {
-    if (currentAnswerIndex < 6) {
-      setState(() {
-        currentAnswerIndex++;
-      });
-      FocusScope.of(context).requestFocus(answerFocusNodes[currentAnswerIndex]);
     }
   }
 
@@ -72,81 +69,96 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
     final int currentIndex = args['currentIndex'];
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: Text("Question ${currentIndex + 1}/6"),
-        actions: [
-          if (currentIndex == 5)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.done_all, color: Colors.white),
-                label: const Text("FINISH SET", style: TextStyle(color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  elevation: 4,
-                ),
-                onPressed: saveQuestion,
-              ),
-            ),
-        ],
+        backgroundColor: Colors.blue,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            _buildInputField("Triangle Word", wordController),
-            const SizedBox(height: 20),
-            _buildInputField("Question", questionController, maxLines: 3),
-            const SizedBox(height: 30),
-            const Text("ANSWERS (7 required)",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            const SizedBox(height: 10),
-            ...List.generate(7, (index) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: TextField(
-                controller: answerControllers[index],
-                focusNode: answerFocusNodes[index],
-                decoration: InputDecoration(
-                  labelText: "Answer ${index + 1}",
-                  border: const OutlineInputBorder(),
-                  suffixIcon: index < 6 ? IconButton(
-                    icon: const Icon(Icons.arrow_forward),
-                    onPressed: _nextAnswerField,
-                  ) : null,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFE3F2FD), Color(0xFFBBDEFB)],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: wordController,
+                          decoration: const InputDecoration(
+                            labelText: "Triangle Box Word",
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: questionController,
+                          decoration: const InputDecoration(
+                            labelText: "Question",
+                            border: OutlineInputBorder(),
+                          ),
+                          maxLines: 3,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                textInputAction: index < 6 ? TextInputAction.next : TextInputAction.done,
-                onSubmitted: (_) => index < 6 ? _nextAnswerField() : null,
-              ),
-            )),
-            const SizedBox(height: 30),
-            if (currentIndex < 5) ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50),
-                backgroundColor: Colors.orange,
-              ),
-              onPressed: saveQuestion,
-              child: const Text("SAVE & NEXT QUESTION",
-                  style: TextStyle(fontSize: 16)),
+                const SizedBox(height: 20),
+                const Text(
+                  "Answers (7 required):",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 7,
+                  separatorBuilder: (context, index) => const SizedBox(height: 8),
+                  itemBuilder: (context, index) {
+                    return TextField(
+                      controller: answerControllers[index],
+                      decoration: InputDecoration(
+                        labelText: "Answer ${index + 1}",
+                        border: const OutlineInputBorder(),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.8),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                if (currentIndex < 5)
+                  ElevatedButton(
+                    onPressed: saveQuestion,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: const Text("Save & Next Question"),
+                  ),
+                if (currentIndex == 5)
+                  ElevatedButton(
+                    onPressed: saveQuestion,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: const Text("Finish Set"),
+                  ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
-    );
-  }
-
-  Widget _buildInputField(String label, TextEditingController controller, {int maxLines = 1}) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-      ),
-      maxLines: maxLines,
     );
   }
 }
