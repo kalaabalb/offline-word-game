@@ -29,7 +29,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
         questionController.text.isEmpty ||
         answerControllers.any((c) => c.text.isEmpty)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill all fields")),
+        const SnackBar(content: Text("እባክዎ ሁሉንም  ይሙሉ")),
       );
       return;
     }
@@ -70,7 +70,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Question ${currentIndex + 1}/6"),
+        title: Text("ጥያቄ ${currentIndex + 1}/6"),
         backgroundColor: Colors.blue,
       ),
       body: Container(
@@ -95,7 +95,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                         TextField(
                           controller: wordController,
                           decoration: const InputDecoration(
-                            labelText: "Triangle Box Word",
+                            labelText: "የሳጥን ቃል",
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -103,7 +103,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                         TextField(
                           controller: questionController,
                           decoration: const InputDecoration(
-                            labelText: "Question",
+                            labelText: "ጥያቄ",
                             border: OutlineInputBorder(),
                           ),
                           maxLines: 3,
@@ -114,7 +114,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  "Answers (7 required):",
+                  "7 መልሶች",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
@@ -127,7 +127,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                     return TextField(
                       controller: answerControllers[index],
                       decoration: InputDecoration(
-                        labelText: "Answer ${index + 1}",
+                        labelText: "መልስ ${index + 1}",
                         border: const OutlineInputBorder(),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
@@ -143,7 +143,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       backgroundColor: Colors.orange,
                       minimumSize: const Size(double.infinity, 50),
                     ),
-                    child: const Text("Save & Next Question"),
+                    child: const Text("አስቀምጥ እና ቀጣይ ጥያቄ"),
                   ),
                 if (currentIndex == 5)
                   ElevatedButton(
@@ -152,7 +152,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                       backgroundColor: Colors.green,
                       minimumSize: const Size(double.infinity, 50),
                     ),
-                    child: const Text("Finish Set"),
+                    child: const Text("ጨርስ"),
                   ),
               ],
             ),

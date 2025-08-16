@@ -22,7 +22,7 @@ class StartScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '$currentTeam, READY?',
+                '$currentTeam, ዝግጁ?',
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -44,7 +44,7 @@ class StartScreen extends StatelessWidget {
                 ),
                 onPressed: () => Navigator.pop(context, true),
                 child: const Text(
-                  'START',
+                  'ጀምር',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class StartScreen extends StatelessWidget {
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
                 child: const Text(
-                  'BACK',
+                  'ተመለስ',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white70,

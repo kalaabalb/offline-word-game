@@ -192,7 +192,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              "Answered: $answeredCount/7",
+              "የተመልሱ: $answeredCount/7",
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
@@ -210,7 +210,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     ),
                     onPressed: answered[currentAnswerIndex] ? null : markAnswered,
                     child: const Text(
-                      "ANSWERED",
+                      "የተመልሱ",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -231,7 +231,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     ),
                     onPressed: nextAnswer,
                     child: const Text(
-                      "NEXT",
+                      "ቀጣይ",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -264,7 +264,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             child: Column(
               children: [
                 const Text(
-                  "GAME ENDED",
+                  "ጨዋታ አልቋል",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -273,7 +273,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  "$currentTeam Score: $score",
+                  "$currentTeam ነጥብ: $score",
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -281,7 +281,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  "Results:",
+                  "ውጤቶች:",
                   style: TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
@@ -331,7 +331,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   ),
                   onPressed: () => Navigator.pop(context, score),
                   child: const Text(
-                    "BACK TO TRIANGLE",
+                    "ወደ ትሪያንግል ተመለስ",
                     style: TextStyle(fontSize: 18),
                   ),
                 ),

@@ -10,14 +10,22 @@ class DataService {
 
   final List<GameSet> _gameSets = [];
   final String _storageKey = 'game_sets';
+  final String _versionKey = 'data_version';
+  final int _currentVersion = 2; // Increment this whenever initial data changes
 
   List<GameSet> get gameSets => _gameSets;
 
   Future<void> loadGameSets() async {
     final prefs = await SharedPreferences.getInstance();
+    final savedVersion = prefs.getInt(_versionKey) ?? 0;
     final jsonString = prefs.getString(_storageKey);
 
-    if (jsonString != null) {
+    if (savedVersion < _currentVersion) {
+      // Version outdated, reload initial data
+      loadInitialData();
+      await _saveGameSets();
+      await prefs.setInt(_versionKey, _currentVersion);
+    } else if (jsonString != null) {
       try {
         final decoded = jsonDecode(jsonString) as List;
         _gameSets.clear();
@@ -26,9 +34,14 @@ class DataService {
       } catch (e) {
         print('Error loading game sets: $e');
         loadInitialData();
+        await _saveGameSets();
+        await prefs.setInt(_versionKey, _currentVersion);
       }
     } else {
+      // No data at all, load initial
       loadInitialData();
+      await _saveGameSets();
+      await prefs.setInt(_versionKey, _currentVersion);
     }
   }
 
@@ -58,9 +71,9 @@ class DataService {
   }
 
   void loadInitialData() {
-    if (_gameSets.isNotEmpty) return;
+    _gameSets.clear();
 
-    // Set 1 - Family
+    // --- Set 1:  ---
     _gameSets.add(
       GameSet(
         id: 1,
@@ -71,185 +84,185 @@ class DataService {
             answers: ['Brush', 'Skirt', 'Bikini', 'Bag', 'Shoes', 'Hat', 'Phone'],
           ),
           QuestionData(
-            word: 'Brother',
-            question: 'What are the things that your brother likes?',
-            answers: ['Football', 'Games', 'Music', 'Shoes', 'Laptop', 'Watch', 'Cap'],
+            word: 'ወንድም',
+            question: 'ወንድምህ የሚወዳቸው ነገሮች ምን ናቸው?',
+            answers: ['እግር ኳስ', 'ጨዋታዎች', 'ሙዚቃ', 'ጫማ', 'ኮምፒዩተር', 'ሰአት', 'ኮፍያ'],
           ),
           QuestionData(
-            word: 'Father',
-            question: 'What are your father\'s favorite hobbies?',
-            answers: ['Reading', 'Driving', 'Fishing', 'Walking', 'Watching TV', 'Gardening', 'Cooking'],
+            word: 'አባት',
+            question: 'አባትህ የሚወዳቸው ልማዶች ምን ናቸው?',
+            answers: ['ንባብ', 'መንዳት', 'መስራት', 'መዝናናት', 'ቴሌቪዥን ማየት', 'አትክልት ማብቀል', 'ምግብ ማብሰል'],
           ),
           QuestionData(
-            word: 'Mother',
-            question: 'What are your mother\'s favorite things?',
-            answers: ['Cooking', 'Sewing', 'Singing', 'Shopping', 'Praying', 'Gardening', 'Knitting'],
+            word: 'እናት',
+            question: 'እናትህ የምትወዳቸው ነገሮች ምን ናቸው?',
+            answers: ['ቡና', 'ማውራት', 'መዝናናት', 'መግዛት', 'ጸሎት', 'ድራማዎችን መመልከት', 'ጉብኝት'],
           ),
           QuestionData(
-            word: 'Friend',
-            question: 'What are the things your friend usually carries?',
-            answers: ['Bag', 'Phone', 'Wallet', 'Watch', 'Keys', 'Notebook', 'Glasses'],
+            word: 'ጓደኛ',
+            question: 'ጓደኛህ ብዙ ጊዜ የሚይዛቸው ነገሮች ምን ናቸው?',
+            answers: ['ብር', 'ስልክ', 'ዋሌት', 'ሰአት', 'መኪና', 'ፊልም', 'መዝናናት'],
           ),
           QuestionData(
-            word: 'Teacher',
-            question: 'What are the things your teacher uses?',
-            answers: ['Chalk', 'Book', 'Pen', 'Laptop', 'Marker', 'Paper', 'Eraser'],
+            word: 'ሙያዎች',
+            question: 'የተለመዱ ሙያዎች ማን ናቸው?',
+            answers: ['ሐኪም', 'አስተማሪ', 'ኢንጅነር', 'ገበሬ', 'አብራሪ', 'ሼፍ', 'ፖሊስ'],
           ),
         ],
       ),
     );
 
-    // Set 2 - School
+    // --- Set 2:  ---
     _gameSets.add(
       GameSet(
         id: 2,
         questions: [
           QuestionData(
-            word: 'Math',
-            question: 'What are common math terms?',
-            answers: ['Algebra', 'Geometry', 'Calculus', 'Equation', 'Fraction', 'Theorem', 'Formula'],
+            word: 'ኪነ-ጥበብ',
+            question: 'የኪነ-ጥበብ አይነቶች ምን ናቸው?',
+            answers: ['ቅርጽ', 'ሙዚቃ', 'ዳንስ', 'ትወና', 'ሥነ-ጽሁፍ', 'ፊልም', 'ሰእል'],
           ),
           QuestionData(
-            word: 'Science',
-            question: 'What are branches of science?',
-            answers: ['Biology', 'Chemistry', 'Physics', 'Astronomy', 'Geology', 'Botany', 'Zoology'],
+            word: 'ስፖርት',
+            question: 'በኢትዮጵያ ታወቁ ስፖርቶች ምን ናቸው?',
+            answers: ['እግር ኳስ', 'አትሌቲክስ', 'ቅርጫት ኳስ', 'መረብ ኳስ', 'ገና', 'ሩጫ', 'ሳይክል'],
           ),
           QuestionData(
-            word: 'History',
-            question: 'What are important historical periods?',
-            answers: ['Ancient', 'Medieval', 'Renaissance', 'Industrial', 'Modern', 'Colonial', 'Digital'],
+            word: 'ቋንቋዎች',
+            question: 'በኢትዮጵያ የሚነገሩ ቋንቋዎች ምን ናቸው?',
+            answers: ['አማርኛ', 'ኦሮምኛ', 'ትግርኛ', 'ሶማሊኛ', 'አፋርኛ', 'ሲዳማ', 'አፋር'],
           ),
           QuestionData(
-            word: 'Art',
-            question: 'What are different art forms?',
-            answers: ['Painting', 'Sculpture', 'Music', 'Dance', 'Theater', 'Literature', 'Film'],
+            word: 'እህት',
+            question: 'እህትህ ያላት ነገሮች ምን ናቸው?',
+            answers: ['የፀጉር ሜዶ', 'ቀሚስ', 'ሜካፕ', 'ቦርሳ', 'ጫማ', 'ኮፍያ', 'ስልክ'],
           ),
           QuestionData(
-            word: 'Sports',
-            question: 'What are popular sports?',
-            answers: ['Soccer', 'Basketball', 'Tennis', 'Swimming', 'Golf', 'Baseball', 'Volleyball'],
+            word: 'እንስሳት',
+            question: 'የተለመዱ ዱር እንስሳት ማን ናቸው?',
+            answers: ['አንበሳ', 'ነብር', 'ዝሆን', 'ቀጭኔ', 'የሜዳ አህያ', 'ነብር', 'ተኩላ'],
           ),
           QuestionData(
-            word: 'Languages',
-            question: 'What are widely spoken languages?',
-            answers: ['English', 'Spanish', 'French', 'Mandarin', 'Arabic', 'Hindi', 'Russian'],
+            word: 'መምህር',
+            question: 'መምህርህ የሚጠቀሙት ነገሮች ምን ናቸው?',
+            answers: ['ጠመኔ', 'መጽሐፍ', 'ብዕር', 'ኮምፒዩተር', 'ማርከር', 'ወረቀት', 'ጋዉን'],
           ),
         ],
       ),
     );
 
-    // Set 3 - Technology
+    // --- Set 3:  ---
     _gameSets.add(
       GameSet(
         id: 3,
         questions: [
           QuestionData(
-            word: 'Phone',
-            question: 'What are smartphone features?',
-            answers: ['Camera', 'GPS', 'Bluetooth', 'Touchscreen', 'App Store', 'Fingerprint', 'Voice Assistant'],
+            word: 'እቃዎች',
+            question: 'በዕለት ተዕለት የምንጠቀባቸው እቃዎች ምን ናቸው?',
+            answers: ['ሳሙና', 'ጫማ', 'ቀሚስ', 'ሻምፑ', 'ልብስ', 'መኪና', 'ስልክ'],
           ),
           QuestionData(
-            word: 'Computer',
-            question: 'What are computer components?',
-            answers: ['CPU', 'RAM', 'Hard Drive', 'Motherboard', 'GPU', 'Keyboard', 'Monitor'],
+            word: 'ቤት',
+            question: 'ቤት ውስጥ የሚገኙ ነገሮች ምን ናቸው?',
+            answers: ['መኝታ', 'ቲቪ', 'ሳሎን', 'መታጠቢያ', 'ጠረጴዛ', 'መቀመጫ', 'መብራት'],
           ),
           QuestionData(
-            word: 'Internet',
-            question: 'What are internet services?',
-            answers: ['Email', 'Streaming', 'Social Media', 'Cloud', 'E-commerce', 'Search', 'VPN'],
+            word: 'ምግቦች',
+            question: 'ከእንጀራ ጋር የሚቀርቡ ምን ናቸው?',
+            answers: ['ስጋ ወጥ', 'ምስር ወጥ', 'ሽሮ', 'ጎመን ወጥ', 'ድንች ወጥ', 'አልጫ ወጥ', 'ዶሮ ወጥ'],
           ),
           QuestionData(
-            word: 'Apps',
-            question: 'What are popular app categories?',
-            answers: ['Social', 'Productivity', 'Games', 'Health', 'Finance', 'Education', 'Entertainment'],
+            word: 'መጠጦች',
+            question: 'በኢትዮጵያ የታወቁ መጠጦች ምን ናቸው?',
+            answers: ['ውሃ', 'ቡና', 'ሻይ', 'ጭማቂ', 'ቢራ', 'ጠጅ', 'ጠላ'],
           ),
           QuestionData(
-            word: 'Gadgets',
-            question: 'What are modern gadgets?',
-            answers: ['Smartwatch', 'Tablet', 'E-reader', 'Drone', 'VR Headset', 'Smart Speaker', 'Fitness Tracker'],
+            word: 'አትክልቶች',
+            question: 'የተለመዱ አትክልቶች ምን ናቸው?',
+            answers: ['ካሮት', 'ጎመን', 'ቲማቲም', 'ድንች', 'ሰላጥ', 'ዱባ', ' ጎመን'],
           ),
           QuestionData(
-            word: 'Coding',
-            question: 'What are programming languages?',
-            answers: ['Python', 'Java', 'JavaScript', 'C++', 'Swift', 'Ruby', 'Go'],
+            word: 'በአገር ውስጥ',
+            question: 'በኢትዮጵያ የሚገኙ የታወቁ ቦታዎች ምን ናቸው?',
+            answers: ['ላሊበላ', 'አክሱም', 'ባህር ዳር', 'ጎንደር', 'አዲስ አበባ', 'ሃዋሳ', 'አፋር'],
           ),
         ],
       ),
     );
 
-    // Set 4 - Food
+    // --- Set 4 ---
     _gameSets.add(
       GameSet(
         id: 4,
         questions: [
           QuestionData(
-            word: 'Fruits',
-            question: 'What are common fruits?',
-            answers: ['Apple', 'Banana', 'Orange', 'Grapes', 'Mango', 'Strawberry', 'Pineapple'],
+            word: 'ፍራፍሬዎች',
+            question: 'የተለመዱ ፍራፍሬዎች ምን ናቸው?',
+            answers: ['አፕል', 'ዘይቱን', 'ብርቱካን', 'ሙዝ', 'ማንጎ', 'አናናስ', 'አቩካዶ'],
           ),
           QuestionData(
-            word: 'Vegetables',
-            question: 'What are common vegetables?',
-            answers: ['Carrot', 'Broccoli', 'Tomato', 'Potato', 'Spinach', 'Onion', 'Cucumber'],
+            word: 'መጓጓዣ',
+            question: 'የመጓጓዣ ዘዴዎች ምን ናቸው?',
+            answers: ['አውሮፕላን', 'ባቡር', 'መኪና', 'ጀልባ', 'ብስክሌት', 'አውቶቡስ', 'በእግር'],
           ),
           QuestionData(
-            word: 'Drinks',
-            question: 'What are popular beverages?',
-            answers: ['Water', 'Coffee', 'Tea', 'Juice', 'Soda', 'Milk', 'Beer'],
+            word: 'መስህቦች',
+            question: 'ታዋቂ ቦታዎች ምንድን ናቸው?',
+            answers: ['አዲስ አበባ', 'አክሱም', 'አባይ ግድብ', 'ላሊበላ', 'ሐረር', 'ጣና ሀይቅ', 'ጎንደር'],
           ),
           QuestionData(
-            word: 'Desserts',
-            question: 'What are sweet desserts?',
-            answers: ['Cake', 'Ice Cream', 'Cookies', 'Pie', 'Pudding', 'Donuts', 'Brownies'],
+            word: 'ተግባራት',
+            question: 'ምን ማድረግ የእረፍት ጊዜ ነገሮች ናቸው?',
+            answers: ['ጉብኝት', 'መግዛት', 'የእግር ጉዞ', 'መዋኘት', 'ሙዚየሞች', 'ፎቶግራፍ ማንሳት', 'ግብዣ'],
           ),
           QuestionData(
-            word: 'Fast Food',
-            question: 'What are fast food items?',
-            answers: ['Burger', 'Pizza', 'Fries', 'Hot Dog', 'Taco', 'Sandwich', 'Fried Chicken'],
+            word: 'አስፈላጊ ነገሮች',
+            question: 'በሚጓዙበት ጊዜ ምን እንደሚወስዱ?',
+            answers: ['ፓስፖርት', 'ልብሶች', 'ጽዳት-እቃ', 'መድሃኒቶች', 'ስል', 'ካሜራ', 'ብር'],
           ),
           QuestionData(
-            word: 'Breakfast',
-            question: 'What are breakfast foods?',
-            answers: ['Eggs', 'Pancakes', 'Cereal', 'Toast', 'Bacon', 'Yogurt', 'Oatmeal'],
+            word: 'ዎቅቶች ',
+            question: 'ምርጥ የጉዞ ወቅቶች መቼ ናቸው።?',
+            answers: ['ጸደይ', 'በጋ', 'መኸር', 'ክረምት', 'በዓላት', 'እረፍት-ዎቅት', 'ቅዳሜና እሁድ'],
           ),
         ],
       ),
     );
 
-    // Set 5 - Travel
+    // --- Set 5 ---
     _gameSets.add(
       GameSet(
         id: 5,
         questions: [
           QuestionData(
-            word: 'Countries',
-            question: 'What are popular travel destinations?',
-            answers: ['France', 'Japan', 'USA', 'Italy', 'Spain', 'Thailand', 'Australia'],
+            word: 'የአፍሪካ አገሮች',
+            question: 'የአፍሪካ አገሮች ማን ናቸው?',
+            answers: ['ኢትዮጵያ', 'ኬንያ', 'ናይጄሪያ', 'ግብጽ', 'ደቡብ አፍሪካ', 'ኤርትሪያ', 'ጂቡቲ'],
           ),
           QuestionData(
-            word: 'Transport',
-            question: 'What are modes of transportation?',
-            answers: ['Airplane', 'Train', 'Car', 'Boat', 'Bicycle', 'Bus', 'Subway'],
+            word: 'ቀለሞች',
+            question: 'የተለመዱ ቀለሞች ማን ናቸው?',
+            answers: ['ቀይ', 'ሰማያዊ', 'አረንጓዴ', 'ቢጫ', 'ጥቁር', 'ነጭ', 'ቡኒ'],
           ),
           QuestionData(
-            word: 'Attractions',
-            question: 'What are famous landmarks?',
-            answers: ['Eiffel Tower', 'Pyramids', 'Great Wall', 'Colosseum', 'Statue of Liberty', 'Taj Mahal', 'Big Ben'],
+            word: 'የሙዚቃ መሳሪያዎች',
+            question: 'የተለመዱ የሙዚቃ መሳሪያዎች ማን ናቸው?',
+            answers: ['ጊታር', 'ፒያኖ', 'ከበሮ', 'በገና', 'መለከት', 'ክራር', 'ዋሽንት'],
           ),
           QuestionData(
-            word: 'Activities',
-            question: 'What are vacation activities?',
-            answers: ['Sightseeing', 'Shopping', 'Hiking', 'Swimming', 'Museums', 'Photography', 'Dining'],
+            word: 'ኤሌክትሮኒክ መሳሪያዎች',
+            question: 'የተለመዱ ኤሌክትሮኒክ መሳሪያዎች ማን ናቸው?',
+            answers: ['ስልክ', 'ላፕቶፕ', 'ታብሌት', 'ካሜራ', 'ቲቪ', 'ስማርትዎች', 'ፕሪንተር'],
           ),
           QuestionData(
-            word: 'Essentials',
-            question: 'What to pack for travel?',
-            answers: ['Passport', 'Clothes', 'Toiletries', 'Medicines', 'Charger', 'Camera', 'Money'],
+            word: 'መኪና',
+            question: 'የተለመዱ የመኪና እቃዎች ማን ናቸው?',
+            answers: ['ሞተር', 'መሪ', 'የኋላ መብራት ', 'ብሎምበር', 'መብራት', 'መስተዋት', 'መቀመጫ'],
           ),
           QuestionData(
-            word: 'Seasons',
-            question: 'When are best travel seasons?',
-            answers: ['Spring', 'Summer', 'Fall', 'Winter', 'Holidays', 'Off-season', 'Weekends'],
+            word: 'ቤት',
+            question: 'እነዚህ ቃላት በ"ቤት" ይጨምራሉ። ምሳሌ ምን ናቸው?',
+            answers: ['መኝታ ቤት', 'ትምህርት ቤት', 'ስፖርት ቤት', 'መጠጥ ቤት', 'መናፈሻ ቤት', 'መጻሕፍት ቤት', 'ባኞ ቤት'],
           ),
         ],
       ),

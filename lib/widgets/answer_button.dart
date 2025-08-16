@@ -30,7 +30,7 @@ class AnswerButton extends StatelessWidget {
           const Icon(Icons.check_circle, color: Colors.white),
           const SizedBox(width: 8),
           Text(
-            "ANSWERED ($count/7)",
+            "የተመለሱት ($count/7)",
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

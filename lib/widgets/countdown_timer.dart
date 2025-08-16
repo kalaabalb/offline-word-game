@@ -66,7 +66,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
           ),
           const SizedBox(width: 8),
           Text(
-            "$remaining s",
+            "$remaining ",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,

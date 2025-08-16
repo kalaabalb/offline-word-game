@@ -50,7 +50,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Create New Set",
+          "አዲስ ይፍጠሩ",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
                         ),
                         onPressed: _addQuestion,
                         child: const Text(
-                          "BEGIN CREATION",
+                          "ጀምር",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -137,13 +137,6 @@ class _AddSetScreenState extends State<AddSetScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        "Step 1 of 1",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white.withOpacity(0.6),
-                        ),
-                      ),
                     ],
                   ),
                 ),

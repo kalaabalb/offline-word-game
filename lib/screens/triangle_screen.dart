@@ -18,8 +18,8 @@ class _TriangleScreenState extends State<TriangleScreen> {
   int team1Score = 0;
   int team2Score = 0;
   List<bool> playedQuestions = List.filled(6, false);
-  String team1Name = 'Team 1';
-  String team2Name = 'Team 2';
+  String team1Name = 'ቡድን 1';
+  String team2Name = 'ቡድን 2';
   bool showWinner = false;
 
   @override
@@ -81,18 +81,18 @@ class _TriangleScreenState extends State<TriangleScreen> {
         final controller = TextEditingController(
             text: isTeam1 ? team1Name : team2Name);
         return AlertDialog(
-          title: Text('Edit ${isTeam1 ? team1Name : team2Name}'),
+          title: Text('ማስተካከል ${isTeam1 ? team1Name : team2Name}'),
           content: TextField(
             controller: controller,
             decoration: const InputDecoration(
-              labelText: 'Team Name',
+              labelText: 'የቡድን ስም',
               border: OutlineInputBorder(),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: const Text('ሰርዝ'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -112,12 +112,11 @@ class _TriangleScreenState extends State<TriangleScreen> {
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Set ${widget.setId}"),
+        title: Text("አዘጋጅ ${widget.setId}"),
         backgroundColor: Colors.deepPurple,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -155,7 +154,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
-                      "$currentTeam's turn",
+                      "$currentTeam' ተራ",
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
@@ -163,14 +162,18 @@ class _TriangleScreenState extends State<TriangleScreen> {
                       ),
                     ),
                   ),
-
-                // Triangle structure
-                TriangleBox(
-                  text: gameSet.questions[0].word,
-                  color: playedQuestions[0] ? Colors.grey : Colors.purple,
-                  onTap: () => _navigateToQuestion(0),
-                  enabled: currentTeam != null && !playedQuestions[0],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TriangleBox(
+                      text: gameSet.questions[0].word,
+                      color: playedQuestions[0] ? Colors.grey : Colors.purple,
+                      onTap: () => _navigateToQuestion(0),
+                      enabled: currentTeam != null && !playedQuestions[0],
+                    ),
+                  ],
                 ),
+                // Triangle structure
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -219,13 +222,13 @@ class _TriangleScreenState extends State<TriangleScreen> {
 
                 if (showWinner)
                   AlertDialog(
-                    title: const Text('Game Over!'),
+                    title: const Text('አበቃ!'),
                     content: Text(
                       team1Score > team2Score
-                          ? '$team1Name WINS! ($team1Score - $team2Score)'
+                          ? '$team1Name አሸንፈዋል! ($team1Score - $team2Score)'
                           : team2Score > team1Score
-                          ? '$team2Name WINS! ($team2Score - $team1Score)'
-                          : 'DRAW! ($team1Score - $team2Score)',
+                          ? '$team2Name አሸንፈዋል! ($team2Score - $team1Score)'
+                          : 'አቻ! ($team1Score - $team2Score)',
                       style: const TextStyle(fontSize: 18),
                     ),
                     actions: [
@@ -239,7 +242,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
                             playedQuestions = List.filled(6, false);
                           });
                         },
-                        child: const Text('Play Again'),
+                        child: const Text('እንደገና ይጫወቱ'),
                       ),
                     ],
                   ),
@@ -282,7 +285,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
         ),
         const SizedBox(height: 8),
         Text(
-          'Score: $score',
+          'ነጥብ: $score',
           style: const TextStyle(
             fontSize: 16,
             color: Colors.white,
