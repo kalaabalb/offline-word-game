@@ -1,16 +1,16 @@
-# game
+# Offline Word Game
 
-A new Flutter project.
+A Flutter word-game app whose UI is titled **ማን ያሸንፋል?** (“Who will win?”). The current app loads game sets locally and includes screens for starting a game, questions, set management, and adding questions.
 
-## Getting Started
+## Requirements
 
-This project is a starting point for a Flutter application.
+- Flutter SDK compatible with the Dart constraint in `pubspec.yaml`
 
-A few resources to get you started if this is your first Flutter project:
+## Run locally
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```bash
+flutter pub get
+flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The app uses local assets and game-set data. Review the source for the current storage behavior before changing persistence.
