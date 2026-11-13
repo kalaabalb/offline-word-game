@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/question.dart';
 import '../services/data_service.dart';
 import '../models/game_set.dart';
+import 'quiz_scoring.dart';
 
 class QuestionScreen extends StatefulWidget {
   const QuestionScreen({super.key});
@@ -94,7 +95,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
   }
 
   int calculateScore() {
-    return answeredCount + (timerSeconds ~/ 5); // 1 point per answer + time bonus
+    return calculateQuizScore(
+      answeredCount: answeredCount,
+      timerSeconds: timerSeconds,
+    );
   }
 
   @override
