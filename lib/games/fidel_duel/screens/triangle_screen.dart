@@ -23,18 +23,29 @@ class _TriangleScreenState extends State<TriangleScreen> {
   int team1Score = 0;
   int team2Score = 0;
   List<bool> playedQuestions = List.filled(6, false);
-  String team1Name = 'ቡድን 1';
-  String team2Name = 'ቡድን 2';
+  late String team1Name;
+  late String team2Name;
+  bool _teamNamesInitialized = false;
   bool showWinner = false;
 
   @override
   void initState() {
     super.initState();
     gameSet = DataService().getGameSetById(widget.setId)!;
-    if (widget.playerNames.length >= 2) {
-      team1Name = widget.playerNames[0];
-      team2Name = widget.playerNames[1];
-    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_teamNamesInitialized) return;
+    final strings = AppStrings.of(context);
+    team1Name = widget.playerNames.length >= 2
+        ? widget.playerNames[0]
+        : strings.text('team.one');
+    team2Name = widget.playerNames.length >= 2
+        ? widget.playerNames[1]
+        : strings.text('team.two');
+    _teamNamesInitialized = true;
   }
 
   void _navigateToQuestion(int questionIndex) {
@@ -251,10 +262,21 @@ class _TriangleScreenState extends State<TriangleScreen> {
                     title: Text(strings.text('quiz.finished')),
                     content: Text(
                       team1Score > team2Score
-                          ? '$team1Name አሸንፈዋል! ($team1Score - $team2Score)'
+                          ? strings.text('winner.team', {
+                              'team': team1Name,
+                              'score': team1Score,
+                              'otherScore': team2Score,
+                            })
                           : team2Score > team1Score
-                              ? '$team2Name አሸንፈዋል! ($team2Score - $team1Score)'
-                              : 'አቻ! ($team1Score - $team2Score)',
+                              ? strings.text('winner.team', {
+                                  'team': team2Name,
+                                  'score': team2Score,
+                                  'otherScore': team1Score,
+                                })
+                              : strings.text('winner.draw', {
+                                  'score': team1Score,
+                                  'otherScore': team2Score,
+                                }),
                       style: const TextStyle(fontSize: 18),
                     ),
                     actions: [

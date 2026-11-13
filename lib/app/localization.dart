@@ -72,6 +72,10 @@ const _english = <String, String>{
   'scoreboard.title': 'Scoreboard',
   'scoreboard.empty': 'No completed games yet.',
   'scoreboard.score': '{name}: {score}',
+  'team.one': 'Team 1',
+  'team.two': 'Team 2',
+  'winner.team': '{team} wins! ({score} - {otherScore})',
+  'winner.draw': 'Draw! ({score} - {otherScore})',
 };
 
 const _amharic = <String, String>{
@@ -127,4 +131,8 @@ const _amharic = <String, String>{
   'scoreboard.title': 'የውጤት ሰሌዳ',
   'scoreboard.empty': 'ገና የተጠናቀቀ ጨዋታ የለም።',
   'scoreboard.score': '{name}: {score}',
+  'team.one': 'ቡድን 1',
+  'team.two': 'ቡድን 2',
+  'winner.team': '{team} አሸንፈዋል! ({score} - {otherScore})',
+  'winner.draw': 'አቻ! ({score} - {otherScore})',
 };

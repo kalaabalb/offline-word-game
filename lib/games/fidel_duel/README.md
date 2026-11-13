@@ -8,7 +8,5 @@ word and seven answers. A team has 30 seconds to mark answers; the round ends
 when time runs out or all seven answers are marked. The score is one point per
 marked answer plus one point for every five seconds remaining. The selected
 question is then unavailable, and turns alternate until all six questions
-have been played. The team with the higher total wins.
-
-The source app does not define tie handling or any additional penalties, so this
-module leaves those unspecified.
+have been played. The team with the higher total wins; equal scores are shown
+as a draw. The source rules define no additional penalties.
