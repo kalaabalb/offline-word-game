@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
+import 'app/home_screen.dart';
 import 'screens/triangle_screen.dart';
 import 'screens/start_screen.dart';
 import 'screens/question_screen.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'ማን ያሸንፋል?',
+      title: 'Jebena',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -30,9 +30,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomeScreen(),
         '/triangle': (context) {
           final args = ModalRoute.of(context)!.settings.arguments;
-          final setId = args is Map<String, dynamic>
-              ? args['setId']
-              : args as int;
+          final setId =
+              args is Map<String, dynamic> ? args['setId'] : args as int;
           return TriangleScreen(setId: setId);
         },
         '/start': (context) => const StartScreen(),

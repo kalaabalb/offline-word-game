@@ -1,0 +1,34 @@
+import '../core/jebena_game.dart';
+
+/// Games available to the shell. Modules register here as they are added.
+const List<JebenaGame> gameRegistry = [];
+
+enum PlayerTier {
+  solo('Solo', 1, 1),
+  pair('Pair', 2, 2),
+  trio('Trio', 3, 5),
+  party('Party', 6, 999999);
+
+  const PlayerTier(this.label, this.minPlayers, this.maxPlayers);
+
+  final String label;
+  final int minPlayers;
+  final int maxPlayers;
+
+  bool includes(int count) => count >= minPlayers && count <= maxPlayers;
+}
+
+List<JebenaGame> gamesForTier(PlayerTier tier, {DateTime? now}) {
+  return gameRegistry
+      .where((game) =>
+          game.minPlayers <= tier.maxPlayers &&
+          game.maxPlayers >= tier.minPlayers)
+      .toList()
+    ..sort((a, b) => b.addedOn.compareTo(a.addedOn));
+}
+
+bool isNewGame(JebenaGame game, {DateTime? now}) {
+  final today = now ?? DateTime.now();
+  return !game.addedOn.isAfter(today) &&
+      today.difference(game.addedOn).inDays < 14;
+}
