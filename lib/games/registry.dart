@@ -17,6 +17,13 @@ enum PlayerTier {
   final int maxPlayers;
 
   bool includes(int count) => count >= minPlayers && count <= maxPlayers;
+
+  String get localizationKey => switch (this) {
+        PlayerTier.solo => 'tier.solo',
+        PlayerTier.pair => 'tier.pair',
+        PlayerTier.trio => 'tier.trio',
+        PlayerTier.party => 'tier.party',
+      };
 }
 
 List<JebenaGame> gamesForTier(PlayerTier tier, {DateTime? now}) {

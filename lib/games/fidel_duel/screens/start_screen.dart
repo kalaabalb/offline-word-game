@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../app/localization.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -7,6 +8,7 @@ class StartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
     final String currentTeam = args['currentTeam'];
+    final strings = AppStrings.of(context);
 
     return Scaffold(
       body: Container(
@@ -22,7 +24,7 @@ class StartScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '$currentTeam, ዝግጁ?',
+                strings.text('quiz.ready', {'team': currentTeam}),
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -41,8 +43,8 @@ class StartScreen extends StatelessWidget {
                   elevation: 8,
                 ),
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text(
-                  'ጀምር',
+                child: Text(
+                  strings.text('common.start'),
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -53,8 +55,8 @@ class StartScreen extends StatelessWidget {
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text(
-                  'ተመለስ',
+                child: Text(
+                  strings.text('common.back'),
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white70,

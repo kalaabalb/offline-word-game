@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core/game_session.dart';
 import '../games/registry.dart';
+import 'localization.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,18 +17,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final games = gamesForTier(tier);
+    final strings = AppStrings.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Jebena')),
+      appBar: AppBar(title: Text(strings.text('app.title'))),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          const Text('How many are playing?', style: TextStyle(fontSize: 24)),
+          Text(strings.text('home.prompt'),
+              style: const TextStyle(fontSize: 24)),
           const SizedBox(height: 12),
           Wrap(
             spacing: 8,
             children: PlayerTier.values
                 .map((option) => ChoiceChip(
-                      label: Text(option.label),
+                      label: Text(strings.text(option.localizationKey)),
                       selected: option == tier,
                       onSelected: (_) => setState(() => tier = option),
                     ))
@@ -35,13 +38,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 20),
           if (games.isEmpty)
-            const Text('Games for this group are coming soon.')
+            Text(strings.text('home.empty'))
           else
             ...games.map((game) => Card(
                   child: ListTile(
-                    title: Text(game.titleEn),
-                    subtitle: Text(game.titleAm),
-                    trailing: isNewGame(game) ? const Text('New') : null,
+                    title:
+                        Text(strings.isEnglish ? game.titleEn : game.titleAm),
+                    trailing:
+                        isNewGame(game) ? Text(strings.text('game.new')) : null,
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) => game.buildPreview(
                         context,

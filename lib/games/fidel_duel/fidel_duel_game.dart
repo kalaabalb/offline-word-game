@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/game_session.dart';
 import '../../core/jebena_game.dart';
+import '../../app/localization.dart';
 import 'screens/home_screen.dart';
 
 final class FidelDuelGame implements JebenaGame {
@@ -39,7 +40,10 @@ class _FidelDuelPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(game.titleEn)),
+        appBar: AppBar(
+          title: Text(
+              AppStrings.of(context).isEnglish ? game.titleEn : game.titleAm),
+        ),
         body: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -47,13 +51,13 @@ class _FidelDuelPreview extends StatelessWidget {
               Text(game.titleAm,
                   style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 16),
-              const Text('Two teams take turns finding answers to word clues.'),
+              Text(AppStrings.of(context).text('game.summary')),
               const SizedBox(height: 24),
               FilledButton(
                 onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => game.buildGame(context, session),
                 )),
-                child: const Text('Choose a question set'),
+                child: Text(AppStrings.of(context).text('game.chooseSet')),
               ),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app/home_screen.dart';
+import 'app/localization.dart';
 import 'games/fidel_duel/screens/triangle_screen.dart';
 import 'games/fidel_duel/screens/start_screen.dart';
 import 'games/fidel_duel/screens/question_screen.dart';
@@ -20,7 +21,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Jebena',
+      onGenerateTitle: (context) => AppStrings.of(context).text('app.title'),
+      supportedLocales: const [Locale('am'), Locale('en')],
+      localeResolutionCallback: (locale, supportedLocales) {
+        if (locale?.languageCode == 'en') return const Locale('en');
+        return const Locale('am');
+      },
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,

@@ -1,0 +1,114 @@
+import 'package:flutter/widgets.dart';
+
+/// Small offline translation table. Amharic is the fallback language.
+class AppStrings {
+  AppStrings._(this.isEnglish);
+
+  final bool isEnglish;
+
+  static AppStrings of(BuildContext context) => AppStrings._(
+        Localizations.localeOf(context).languageCode == 'en',
+      );
+
+  String text(String key, [Map<String, Object> values = const {}]) {
+    final value = (isEnglish ? _english : _amharic)[key] ?? key;
+    return values.entries.fold(
+        value,
+        (text, entry) =>
+            text.replaceAll('{${entry.key}}', entry.value.toString()));
+  }
+}
+
+const _english = <String, String>{
+  'app.title': 'Jebena',
+  'home.prompt': 'How many are playing?',
+  'home.empty': 'Games for this group are coming soon.',
+  'game.new': 'New',
+  'tier.solo': 'Solo',
+  'tier.pair': 'Pair',
+  'tier.trio': 'Trio',
+  'tier.party': 'Party',
+  'game.summary': 'Two teams take turns finding answers to word clues.',
+  'game.chooseSet': 'Choose a question set',
+  'quiz.prepare': 'Prepare {set}',
+  'quiz.edit': 'Edit {team}',
+  'quiz.teamName': 'Team name',
+  'common.cancel': 'Cancel',
+  'common.save': 'Save',
+  'quiz.finished': 'Finished!',
+  'quiz.playAgain': 'Play again',
+  'quiz.ready': '{team}, ready?',
+  'common.start': 'Start',
+  'common.back': 'Back',
+  'question.fillAll': 'Please fill in every field.',
+  'question.title': 'Question {index}/6',
+  'question.wordLabel': 'Clue word',
+  'question.promptLabel': 'Question',
+  'question.answers': 'Answers',
+  'question.answerLabel': 'Answer {index}',
+  'question.saveNext': 'Save and next question',
+  'question.finish': 'Finish',
+  'question.answered': 'Answered: {count}/7',
+  'question.mark': 'Mark answered',
+  'question.skip': 'Next answer',
+  'question.results': 'Results',
+  'question.score': '{team} score: {score}',
+  'question.continue': 'Continue',
+  'question.gameOver': 'Time is up',
+  'question.resultsTitle': 'Results:',
+  'question.return': 'Return to board',
+  'set.create': 'Create new',
+  'set.createTitle': 'Create a question set',
+  'set.instructions':
+      'Create six questions to play, each with one clue word and seven possible answers.',
+  'set.start': 'Start',
+  'set.tip': 'Tip: prepare your words and clues before you begin.',
+  'set.listTitle': 'Question sets',
+};
+
+const _amharic = <String, String>{
+  'app.title': 'ጀበና',
+  'home.prompt': 'ስንት ሰዎች ይጫወታሉ?',
+  'home.empty': 'ለዚህ ቡድን የሚሆኑ ጨዋታዎች በቅርቡ ይጨመራሉ።',
+  'game.new': 'አዲስ',
+  'tier.solo': 'ብቻ',
+  'tier.pair': 'ጥንድ',
+  'tier.trio': 'ሶስት እስከ አምስት',
+  'tier.party': 'ስድስት እና ከዚያ በላይ',
+  'game.summary': 'ሁለት ቡድኖች ተራ በተራ ለቃል ፍንጮች መልስ ያገኛሉ።',
+  'game.chooseSet': 'የጥያቄ ስብስብ ይምረጡ',
+  'quiz.prepare': '{set} ያዘጋጁ',
+  'quiz.edit': '{team} ያስተካክሉ',
+  'quiz.teamName': 'የቡድን ስም',
+  'common.cancel': 'ሰርዝ',
+  'common.save': 'አስቀምጥ',
+  'quiz.finished': 'አበቃ!',
+  'quiz.playAgain': 'እንደገና ይጫወቱ',
+  'quiz.ready': '{team}, ዝግጁ?',
+  'common.start': 'ጀምር',
+  'common.back': 'ተመለስ',
+  'question.fillAll': 'እባክዎ ሁሉንም ቦታዎች ይሙሉ።',
+  'question.title': 'ጥያቄ {index}/6',
+  'question.wordLabel': 'የፍንጭ ቃል',
+  'question.promptLabel': 'ጥያቄ',
+  'question.answers': 'መልሶች',
+  'question.answerLabel': 'መልስ {index}',
+  'question.saveNext': 'አስቀምጥና ወደ ቀጣዩ ጥያቄ',
+  'question.finish': 'ጨርስ',
+  'question.answered': 'የተመለሱ: {count}/7',
+  'question.mark': 'መልስ ምልክት አድርግ',
+  'question.skip': 'ቀጣይ መልስ',
+  'question.results': 'ውጤት',
+  'question.score': '{team} ነጥብ: {score}',
+  'question.continue': 'ቀጥል',
+  'question.gameOver': 'ጊዜው አልቋል',
+  'question.resultsTitle': 'ውጤቶች:',
+  'question.return': 'ወደ ሰሌዳው ተመለስ',
+  'set.create': 'አዲስ ይፍጠሩ',
+  'set.createTitle': 'አዲስ የጥያቄ ስብስብ ይፍጠሩ',
+  'set.instructions':
+      'ለመጫወት 6 ጥያቄዎች ይፍጠሩ፤ እያንዳንዱ አንድ የፍንጭ ቃልና 7 ሊሆኑ የሚችሉ መልሶች ይኖሩታል።',
+  'set.start': 'ጀምር',
+  'set.tip': 'ጠቃሚ: ከመጀመርዎ በፊት ቃላትዎንና ፍንጮችዎን ያዘጋጁ።',
+  'set.listTitle': 'የጥያቄ ስብስቦች',
+};

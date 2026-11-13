@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../../app/localization.dart';
 import '../services/data_service.dart';
 import '../models/game_set.dart';
 import '../scoring.dart';
@@ -104,6 +105,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
     if (showResults) {
       return _buildResultsScreen();
     }
@@ -196,7 +198,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              "የተመልሱ: $answeredCount/7",
+              strings.text('question.answered', {'count': answeredCount}),
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
@@ -214,8 +216,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     ),
                     onPressed:
                         answered[currentAnswerIndex] ? null : markAnswered,
-                    child: const Text(
-                      "የተመልሱ",
+                    child: Text(
+                      strings.text('question.mark'),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -235,8 +237,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       ),
                     ),
                     onPressed: nextAnswer,
-                    child: const Text(
-                      "ቀጣይ",
+                    child: Text(
+                      strings.text('question.skip'),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -254,6 +256,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   }
 
   Widget _buildResultsScreen() {
+    final strings = AppStrings.of(context);
     final question = gameSet.questions[questionIndex];
     final score = calculateScore();
 
@@ -268,8 +271,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                const Text(
-                  "ጨዋታ አልቋል",
+                Text(
+                  strings.text('question.gameOver'),
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -278,15 +281,16 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  "$currentTeam ነጥብ: $score",
+                  strings.text(
+                      'question.score', {'team': currentTeam, 'score': score}),
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  "ውጤቶች:",
+                Text(
+                  strings.text('question.resultsTitle'),
                   style: TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
@@ -334,8 +338,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                         horizontal: 40, vertical: 15),
                   ),
                   onPressed: () => Navigator.pop(context, score),
-                  child: const Text(
-                    "ወደ ትሪያንግል ተመለስ",
+                  child: Text(
+                    strings.text('question.return'),
                     style: TextStyle(fontSize: 18),
                   ),
                 ),

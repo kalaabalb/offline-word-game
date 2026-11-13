@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../app/localization.dart';
 import '../services/data_service.dart';
 import '../widgets/triangle_box.dart';
 import '../models/game_set.dart';
@@ -76,21 +77,23 @@ class _TriangleScreenState extends State<TriangleScreen> {
     showDialog(
       context: context,
       builder: (context) {
+        final strings = AppStrings.of(context);
         final controller =
             TextEditingController(text: isTeam1 ? team1Name : team2Name);
         return AlertDialog(
-          title: Text('ማስተካከል ${isTeam1 ? team1Name : team2Name}'),
+          title: Text(strings
+              .text('quiz.edit', {'team': isTeam1 ? team1Name : team2Name})),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(
-              labelText: 'የቡድን ስም',
+            decoration: InputDecoration(
+              labelText: strings.text('quiz.teamName'),
               border: OutlineInputBorder(),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('ሰርዝ'),
+              child: Text(strings.text('common.cancel')),
             ),
             ElevatedButton(
               onPressed: () {
@@ -103,7 +106,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
                 });
                 Navigator.pop(context);
               },
-              child: const Text('Save'),
+              child: Text(strings.text('common.save')),
             ),
           ],
         );
@@ -113,9 +116,10 @@ class _TriangleScreenState extends State<TriangleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("አዘጋጅ ${widget.setId}"),
+        title: Text(strings.text('quiz.prepare', {'set': widget.setId})),
         backgroundColor: Colors.deepPurple,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -221,7 +225,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
 
                 if (showWinner)
                   AlertDialog(
-                    title: const Text('አበቃ!'),
+                    title: Text(strings.text('quiz.finished')),
                     content: Text(
                       team1Score > team2Score
                           ? '$team1Name አሸንፈዋል! ($team1Score - $team2Score)'
@@ -241,7 +245,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
                             playedQuestions = List.filled(6, false);
                           });
                         },
-                        child: const Text('እንደገና ይጫወቱ'),
+                        child: Text(strings.text('quiz.playAgain')),
                       ),
                     ],
                   ),

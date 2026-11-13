@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../app/localization.dart';
 import '../services/data_service.dart';
 import '../models/game_set.dart';
 import '../models/question.dart';
@@ -47,10 +48,11 @@ class _AddSetScreenState extends State<AddSetScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "አዲስ ይፍጠሩ",
+        title: Text(
+          strings.text('set.create'),
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -97,7 +99,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        "አዲስ የጥያቄ ስብስብ ይፍጠሩ",
+                        strings.text('set.createTitle'),
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -107,7 +109,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        " ለመጫወት የ 6 ጥያቄዎች ስብስብ ይፍጠሩ.  7 ሊሆኑ የሚችሉ መልሶች እና 1 ቃል ለመምረጥ",
+                        strings.text('set.instructions'),
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.white.withOpacity(0.8),
@@ -128,8 +130,8 @@ class _AddSetScreenState extends State<AddSetScreen> {
                           shadowColor: Colors.amber.withOpacity(0.5),
                         ),
                         onPressed: _addQuestion,
-                        child: const Text(
-                          "ጀምር",
+                        child: Text(
+                          strings.text('set.start'),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -142,7 +144,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
                 ),
                 const SizedBox(height: 40),
                 Text(
-                  "ጠቃሚ: ከመጀመርዎ በፊት የእርስዎን ቃላት እና ትርጓሜዎች ያዘጋጁ",
+                  strings.text('set.tip'),
                   style: TextStyle(
                     fontSize: 14,
                     fontStyle: FontStyle.italic,

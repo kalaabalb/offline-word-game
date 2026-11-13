@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../app/localization.dart';
 import '../services/data_service.dart';
 import '../widgets/numbered_box.dart';
 
@@ -27,11 +28,12 @@ class _HomeScreenState extends State<FidelDuelLibraryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text(
-          'ማን ያሸንፋል?',
+        title: Text(
+          strings.text('set.listTitle'),
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
