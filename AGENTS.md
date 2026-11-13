@@ -8,11 +8,11 @@ Jebena: an offline Flutter party-games app in Amharic. The repo currently holds 
 
 ## Hard rules
 
-- Open one pull request per milestone. Never push to the default branch. Never merge.
+- Work directly on `master` with small, focused commits (one per logical step) and push after each. Do not open a branch or pull request unless the author asks. Never force-push.
 - No secrets, no analytics or ad SDKs, and no network permission in v1.
 - Original art, names and sounds only. Do not use TV-show names, logos or channel branding in code, assets, README or store text.
 - Do not invent rules for a game the author has not specified. Implement the simplest common version, document the variant in the game's README section, and list it under "Needs author confirmation" in the PR.
-- Do not delete branches or repos. Renaming the repo to `jebena` is allowed (`gh repo rename jebena`).
+- Do not delete branches or repos. Renaming the repo to `jebena` is allowed (`gh repo rename jebena`); skip this step if the repo is already named `jebena`.
 - Every new dependency needs a one-line reason in `docs/DEPENDENCIES.md`.
 
 ## Known cleanup (milestone 1)
@@ -44,4 +44,4 @@ lib/
 
 ## Reporting
 
-When a milestone is finished, reply with the PR link, APK size, test results, and the list of items needing author confirmation.
+When a milestone is finished, reply with the commit range, APK size, test results, and the list of items needing author confirmation.
