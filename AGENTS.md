@@ -10,17 +10,15 @@ Jebena: an offline Flutter party-games app in Amharic. The repo currently holds 
 
 - Work directly on `master` with small, focused commits (one per logical step) and push after each. Do not open a branch or pull request unless the author asks. Never force-push.
 - No secrets, no analytics or ad SDKs, and no network permission in v1.
-- Original art, names and sounds only. Do not use TV-show names, logos or channel branding in code, assets, README or store text.
+- Original art, names and sounds only. Do not copy external entertainment titles, logos or channel branding into code, assets, README or store text.
 - Do not invent rules for a game the author has not specified. Implement the simplest common version, document the variant in the game's README section, and list it under "Needs author confirmation" in the PR.
 - Do not delete branches or repos. Renaming the repo to `jebena` is allowed (`gh repo rename jebena`); skip this step if the repo is already named `jebena`.
 - Every new dependency needs a one-line reason in `docs/DEPENDENCIES.md`.
 
-## Known cleanup (milestone 1)
+## Milestone 1 status
 
-- The Dart package name in `pubspec.yaml` is `man_yashenfal`, which is a TV-show name. Rename it to `jebena` and update imports.
-- Remove `pubspec.yaml.bak`.
-- The home screen title is a hard-coded show-style title; move all UI strings into a localization layer (Amharic first, English second).
-- Add tests for the quiz scoring logic before moving it into `lib/games/`.
+The package rename, backup cleanup, scoring tests, shell, first game module,
+localization, theme, font subset, local scoreboard, and CI are complete.
 - Default branch is `master`; keep it.
 
 ## Target architecture

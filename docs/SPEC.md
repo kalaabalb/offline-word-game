@@ -73,7 +73,7 @@ Dark roasted-brown background, cream text, terracotta and saffron accents. Chunk
 
 ## Open questions for the author
 
-1. Rules of the other TV and family games, as your family plays them.
+1. Rules of the other family games, as your family plays them.
 2. Which Gebeta variant your family uses.
 3. Spelling and use of the three coffee-ceremony round names.
 4. Whether the store names "Jebena" are available.
