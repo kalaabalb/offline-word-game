@@ -33,10 +33,8 @@ class StartScreen extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.amber,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 40,
-                      vertical: 20
-                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),

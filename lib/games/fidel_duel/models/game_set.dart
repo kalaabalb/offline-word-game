@@ -10,13 +10,13 @@ class GameSet {
   });
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'questions': questions.map((q) => q.toJson()).toList(),
-  };
+        'id': id,
+        'questions': questions.map((q) => q.toJson()).toList(),
+      };
 
   factory GameSet.fromJson(Map<String, dynamic> json) => GameSet(
-    id: json['id'],
-    questions: List<QuestionData>.from(
-        json['questions'].map((q) => QuestionData.fromJson(q))),
-  );
+        id: json['id'],
+        questions: List<QuestionData>.from(
+            json['questions'].map((q) => QuestionData.fromJson(q))),
+      );
 }

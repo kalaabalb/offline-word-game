@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'app/home_screen.dart';
-import 'screens/triangle_screen.dart';
-import 'screens/start_screen.dart';
-import 'screens/question_screen.dart';
-import 'screens/add_set_screen.dart';
-import 'screens/add_question_screen.dart';
-import 'services/data_service.dart';
+import 'games/fidel_duel/screens/triangle_screen.dart';
+import 'games/fidel_duel/screens/start_screen.dart';
+import 'games/fidel_duel/screens/question_screen.dart';
+import 'games/fidel_duel/screens/add_set_screen.dart';
+import 'games/fidel_duel/screens/add_question_screen.dart';
+import 'games/fidel_duel/services/data_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

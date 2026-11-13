@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:jebena/screens/quiz_scoring.dart';
+import 'package:jebena/games/fidel_duel/scoring.dart';
 
 void main() {
   group('calculateQuizScore', () {

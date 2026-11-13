@@ -12,7 +12,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
   final TextEditingController wordController = TextEditingController();
   final TextEditingController questionController = TextEditingController();
   final List<TextEditingController> answerControllers =
-  List.generate(7, (_) => TextEditingController());
+      List.generate(7, (_) => TextEditingController());
 
   @override
   void dispose() {
@@ -122,7 +122,8 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: 7,
-                  separatorBuilder: (context, index) => const SizedBox(height: 8),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 8),
                   itemBuilder: (context, index) {
                     return TextField(
                       controller: answerControllers[index],

@@ -40,7 +40,6 @@ class _TriangleScreenState extends State<TriangleScreen> {
         'questionIndex': questionIndex,
         'currentTeam': currentTeam,
       },
-
     ).then((shouldProceed) {
       if (shouldProceed == true) {
         Navigator.pushNamed(
@@ -51,7 +50,6 @@ class _TriangleScreenState extends State<TriangleScreen> {
             'questionIndex': questionIndex,
             'currentTeam': currentTeam,
           },
-
         ).then((score) {
           if (score != null) {
             setState(() {
@@ -78,8 +76,8 @@ class _TriangleScreenState extends State<TriangleScreen> {
     showDialog(
       context: context,
       builder: (context) {
-        final controller = TextEditingController(
-            text: isTeam1 ? team1Name : team2Name);
+        final controller =
+            TextEditingController(text: isTeam1 ? team1Name : team2Name);
         return AlertDialog(
           title: Text('ማስተካከል ${isTeam1 ? team1Name : team2Name}'),
           content: TextField(
@@ -112,6 +110,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -227,8 +226,8 @@ class _TriangleScreenState extends State<TriangleScreen> {
                       team1Score > team2Score
                           ? '$team1Name አሸንፈዋል! ($team1Score - $team2Score)'
                           : team2Score > team1Score
-                          ? '$team2Name አሸንፈዋል! ($team2Score - $team1Score)'
-                          : 'አቻ! ($team1Score - $team2Score)',
+                              ? '$team2Name አሸንፈዋል! ($team2Score - $team1Score)'
+                              : 'አቻ! ($team1Score - $team2Score)',
                       style: const TextStyle(fontSize: 18),
                     ),
                     actions: [

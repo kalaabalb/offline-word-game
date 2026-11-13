@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import '../services/data_service.dart';
 import '../widgets/numbered_box.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class FidelDuelLibraryScreen extends StatefulWidget {
+  const FidelDuelLibraryScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<FidelDuelLibraryScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<FidelDuelLibraryScreen> {
   final DataService dataService = DataService();
   bool isLoading = true;
 
@@ -73,47 +73,52 @@ class _HomeScreenState extends State<HomeScreen> {
           Positioned(
             top: 100,
             left: 50,
-            child: _FloatingBubble(size: 80, color: Colors.white.withOpacity(0.1)),
+            child:
+                _FloatingBubble(size: 80, color: Colors.white.withOpacity(0.1)),
           ),
           Positioned(
             bottom: 200,
             right: 30,
-            child: _FloatingBubble(size: 120, color: Colors.white.withOpacity(0.08)),
+            child: _FloatingBubble(
+                size: 120, color: Colors.white.withOpacity(0.08)),
           ),
           Positioned(
             top: 300,
             right: 100,
-            child: _FloatingBubble(size: 60, color: Colors.white.withOpacity(0.15)),
+            child: _FloatingBubble(
+                size: 60, color: Colors.white.withOpacity(0.15)),
           ),
 
           // Content
           isLoading
-              ? const Center(child: CircularProgressIndicator(color: Colors.white))
+              ? const Center(
+                  child: CircularProgressIndicator(color: Colors.white))
               : Padding(
-            padding: const EdgeInsets.only(top: 100),
-            child: GridView.builder(
-              padding: const EdgeInsets.all(20),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-              ),
-              itemCount: dataService.gameSets.length,
-              itemBuilder: (context, index) {
-                final set = dataService.gameSets[index];
-                return NumberedBox(
-                  number: set.id,
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/triangle',
-                      arguments: set.id,
-                    );
-                  },
-                );
-              },
-            ),
-          ),
+                  padding: const EdgeInsets.only(top: 100),
+                  child: GridView.builder(
+                    padding: const EdgeInsets.all(20),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                    ),
+                    itemCount: dataService.gameSets.length,
+                    itemBuilder: (context, index) {
+                      final set = dataService.gameSets[index];
+                      return NumberedBox(
+                        number: set.id,
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/triangle',
+                            arguments: set.id,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -139,7 +144,8 @@ class _FloatingBubble extends StatefulWidget {
   State<_FloatingBubble> createState() => _FloatingBubbleState();
 }
 
-class _FloatingBubbleState extends State<_FloatingBubble> with SingleTickerProviderStateMixin {
+class _FloatingBubbleState extends State<_FloatingBubble>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animation;
 

@@ -1,7 +1,8 @@
 import '../core/jebena_game.dart';
+import 'fidel_duel/fidel_duel_game.dart';
 
 /// Games available to the shell. Modules register here as they are added.
-const List<JebenaGame> gameRegistry = [];
+final List<JebenaGame> gameRegistry = [fidelDuelGame];
 
 enum PlayerTier {
   solo('Solo', 1, 1),

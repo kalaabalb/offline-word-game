@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../models/question.dart';
 import '../services/data_service.dart';
 import '../models/game_set.dart';
-import 'quiz_scoring.dart';
+import '../scoring.dart';
 
 class QuestionScreen extends StatefulWidget {
   const QuestionScreen({super.key});
@@ -35,7 +34,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
     currentTeam = args['currentTeam'];
 
     gameSet = DataService().getGameSetById(setId)!;
-    answered = List.filled(gameSet.questions[questionIndex].answers.length, false);
+    answered =
+        List.filled(gameSet.questions[questionIndex].answers.length, false);
     startTimer();
   }
 
@@ -86,9 +86,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
   }
 
   int _getNextUnansweredIndex() {
-    for (int i = (currentAnswerIndex + 1) % gameSet.questions[questionIndex].answers.length;
-    i != currentAnswerIndex;
-    i = (i + 1) % gameSet.questions[questionIndex].answers.length) {
+    for (int i = (currentAnswerIndex + 1) %
+            gameSet.questions[questionIndex].answers.length;
+        i != currentAnswerIndex;
+        i = (i + 1) % gameSet.questions[questionIndex].answers.length) {
       if (!answered[i]) return i;
     }
     return -1;
@@ -169,9 +170,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     : Colors.blue[50],
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(
-                  color: answered[currentAnswerIndex]
-                      ? Colors.green
-                      : Colors.blue,
+                  color:
+                      answered[currentAnswerIndex] ? Colors.green : Colors.blue,
                   width: 2,
                 ),
               ),
@@ -212,7 +212,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: answered[currentAnswerIndex] ? null : markAnswered,
+                    onPressed:
+                        answered[currentAnswerIndex] ? null : markAnswered,
                     child: const Text(
                       "የተመልሱ",
                       style: TextStyle(
@@ -296,7 +297,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     margin: const EdgeInsets.symmetric(vertical: 4),
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: answered[index] ? Colors.green[100] : Colors.red[100],
+                      color:
+                          answered[index] ? Colors.green[100] : Colors.red[100],
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: answered[index] ? Colors.green : Colors.red,
@@ -329,9 +331,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 15
-                    ),
+                        horizontal: 40, vertical: 15),
                   ),
                   onPressed: () => Navigator.pop(context, score),
                   child: const Text(
