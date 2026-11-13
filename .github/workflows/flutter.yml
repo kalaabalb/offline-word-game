@@ -1,0 +1,40 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build apk --release --split-per-abi
+      - name: Check release APK sizes
+        shell: bash
+        run: |
+          set -euo pipefail
+          apk_dir=build/app/outputs/flutter-apk
+          expected=(app-armeabi-v7a-release.apk app-arm64-v8a-release.apk app-x86_64-release.apk)
+          for apk in "${expected[@]}"; do
+            file="$apk_dir/$apk"
+            test -f "$file"
+            size=$(stat -c%s "$file")
+            printf '%s %s bytes (%.2f MiB)\n' "$apk" "$size" "$(awk "BEGIN { print $size / 1048576 }")"
+            if (( size >= 20000000 )); then
+              echo "$apk exceeds the 20 MB limit" >&2
+              exit 1
+            fi
+          done
+          if rg -n 'android.permission.INTERNET' android/app/src; then
+            echo 'Network permission is forbidden in this app.' >&2
+            exit 1
+          fi

@@ -43,6 +43,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
       questions: newQuestions,
     );
     await dataService.addGameSet(newSet);
+    if (!mounted) return;
     Navigator.popUntil(context, (route) => route.isFirst);
   }
 
@@ -53,7 +54,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
       appBar: AppBar(
         title: Text(
           strings.text('set.create'),
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -83,10 +84,10 @@ class _AddSetScreenState extends State<AddSetScreen> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       width: 1,
                     ),
                   ),
@@ -103,7 +104,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -112,7 +113,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
                         strings.text('set.instructions'),
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -127,12 +128,12 @@ class _AddSetScreenState extends State<AddSetScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           elevation: 5,
-                          shadowColor: Colors.amber.withOpacity(0.5),
+                          shadowColor: Colors.amber.withValues(alpha: 0.5),
                         ),
                         onPressed: _addQuestion,
                         child: Text(
                           strings.text('set.start'),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -148,7 +149,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
                   style: TextStyle(
                     fontSize: 14,
                     fontStyle: FontStyle.italic,
-                    color: Colors.white.withOpacity(0.6),
+                    color: Colors.white.withValues(alpha: 0.6),
                   ),
                   textAlign: TextAlign.center,
                 ),

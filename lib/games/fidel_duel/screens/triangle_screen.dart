@@ -50,7 +50,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
         'currentTeam': currentTeam,
       },
     ).then((shouldProceed) {
-      if (shouldProceed == true) {
+      if (mounted && shouldProceed == true) {
         Navigator.pushNamed(
           context,
           '/question',
@@ -85,7 +85,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
   }
 
   Future<void> _saveScore() async {
-    final storage = const JebenaStorage();
+    const storage = JebenaStorage();
     final entries = await storage.readJsonList('scoreboard');
     entries.add(ScoreEntry(
       gameId: 'fidel_duel',
@@ -110,7 +110,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
             controller: controller,
             decoration: InputDecoration(
               labelText: strings.text('quiz.teamName'),
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
             ),
           ),
           actions: [

@@ -53,7 +53,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: timerColor.withOpacity(0.2),
+        color: timerColor.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: timerColor, width: 2),
       ),

@@ -100,7 +100,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                           controller: wordController,
                           decoration: InputDecoration(
                             labelText: strings.text('question.wordLabel'),
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -108,7 +108,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                           controller: questionController,
                           decoration: InputDecoration(
                             labelText: strings.text('question.promptLabel'),
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                           ),
                           maxLines: 3,
                         ),
@@ -119,7 +119,8 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                 const SizedBox(height: 20),
                 Text(
                   '7 ${strings.text('question.answers')}',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
                 ListView.separated(
@@ -136,7 +137,7 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
                             .text('question.answerLabel', {'index': index + 1}),
                         border: const OutlineInputBorder(),
                         filled: true,
-                        fillColor: Colors.white.withOpacity(0.8),
+                        fillColor: Colors.white.withValues(alpha: 0.8),
                       ),
                     );
                   },

@@ -37,7 +37,7 @@ class _HomeScreenState extends State<FidelDuelLibraryScreen> {
       appBar: AppBar(
         title: Text(
           strings.text('set.listTitle'),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -78,20 +78,20 @@ class _HomeScreenState extends State<FidelDuelLibraryScreen> {
           Positioned(
             top: 100,
             left: 50,
-            child:
-                _FloatingBubble(size: 80, color: Colors.white.withOpacity(0.1)),
+            child: _FloatingBubble(
+                size: 80, color: Colors.white.withValues(alpha: 0.1)),
           ),
           Positioned(
             bottom: 200,
             right: 30,
             child: _FloatingBubble(
-                size: 120, color: Colors.white.withOpacity(0.08)),
+                size: 120, color: Colors.white.withValues(alpha: 0.08)),
           ),
           Positioned(
             top: 300,
             right: 100,
             child: _FloatingBubble(
-                size: 60, color: Colors.white.withOpacity(0.15)),
+                size: 60, color: Colors.white.withValues(alpha: 0.15)),
           ),
 
           // Content

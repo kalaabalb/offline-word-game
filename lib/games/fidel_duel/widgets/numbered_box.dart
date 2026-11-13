@@ -44,18 +44,18 @@ class _NumberedBoxState extends State<NumberedBox> {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.tealAccent.withOpacity(0.5),
+                color: Colors.tealAccent.withValues(alpha: 0.5),
                 blurRadius: 12,
                 offset: const Offset(0, 6),
               ),
               BoxShadow(
-                color: Colors.blueAccent.withOpacity(0.3),
+                color: Colors.blueAccent.withValues(alpha: 0.3),
                 blurRadius: 18,
                 offset: const Offset(0, 12),
               ),
             ],
             border: Border.all(
-              color: Colors.white.withOpacity(0.4),
+              color: Colors.white.withValues(alpha: 0.4),
               width: 2,
             ),
           ),

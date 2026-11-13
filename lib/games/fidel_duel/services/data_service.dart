@@ -31,8 +31,7 @@ class DataService {
         _gameSets.clear();
         _gameSets.addAll(decoded.map((e) => GameSet.fromJson(e)));
         _gameSets.sort((a, b) => a.id.compareTo(b.id));
-      } catch (e) {
-        print('Error loading game sets: $e');
+      } catch (_) {
         loadInitialData();
         await _saveGameSets();
         await prefs.setInt(_versionKey, _currentVersion);

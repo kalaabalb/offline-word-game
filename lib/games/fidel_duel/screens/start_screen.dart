@@ -45,7 +45,7 @@ class StartScreen extends StatelessWidget {
                 onPressed: () => Navigator.pop(context, true),
                 child: Text(
                   strings.text('common.start'),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -57,7 +57,7 @@ class StartScreen extends StatelessWidget {
                 onPressed: () => Navigator.pop(context, false),
                 child: Text(
                   strings.text('common.back'),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color: Colors.white70,
                   ),

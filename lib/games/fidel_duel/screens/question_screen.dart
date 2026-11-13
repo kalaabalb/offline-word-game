@@ -218,7 +218,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                         answered[currentAnswerIndex] ? null : markAnswered,
                     child: Text(
                       strings.text('question.mark'),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -239,7 +239,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     onPressed: nextAnswer,
                     child: Text(
                       strings.text('question.skip'),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.blue,
@@ -273,7 +273,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
               children: [
                 Text(
                   strings.text('question.gameOver'),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.red,
@@ -291,7 +291,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 const SizedBox(height: 20),
                 Text(
                   strings.text('question.resultsTitle'),
-                  style: TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
                 ...question.answers.asMap().entries.map((entry) {
@@ -329,7 +329,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       ],
                     ),
                   );
-                }).toList(),
+                }),
                 const SizedBox(height: 30),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -340,7 +340,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   onPressed: () => Navigator.pop(context, score),
                   child: Text(
                     strings.text('question.return'),
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
               ],

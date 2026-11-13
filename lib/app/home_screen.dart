@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../core/game_session.dart';
 import '../games/registry.dart';
 import 'localization.dart';
 import 'motion_settings.dart';
