@@ -27,7 +27,7 @@ final class FidelDuelGame implements JebenaGame {
 
   @override
   Widget buildGame(BuildContext context, GameSession session) =>
-      const FidelDuelLibraryScreen();
+      FidelDuelLibraryScreen(session: session);
 }
 
 const fidelDuelGame = FidelDuelGame();

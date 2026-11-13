@@ -66,6 +66,12 @@ const _english = <String, String>{
   'set.listTitle': 'Question sets',
   'settings.title': 'Settings',
   'settings.reducedMotion': 'Reduce motion',
+  'players.title': 'Player names and avatars',
+  'players.name': 'Player {index}',
+  'players.save': 'Continue',
+  'scoreboard.title': 'Scoreboard',
+  'scoreboard.empty': 'No completed games yet.',
+  'scoreboard.score': '{name}: {score}',
 };
 
 const _amharic = <String, String>{
@@ -115,4 +121,10 @@ const _amharic = <String, String>{
   'set.listTitle': 'የጥያቄ ስብስቦች',
   'settings.title': 'ቅንብሮች',
   'settings.reducedMotion': 'እንቅስቃሴን ቀንስ',
+  'players.title': 'የተጫዋቾች ስሞችና አምሳያዎች',
+  'players.name': 'ተጫዋች {index}',
+  'players.save': 'ቀጥል',
+  'scoreboard.title': 'የውጤት ሰሌዳ',
+  'scoreboard.empty': 'ገና የተጠናቀቀ ጨዋታ የለም።',
+  'scoreboard.score': '{name}: {score}',
 };

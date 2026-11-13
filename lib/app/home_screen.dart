@@ -4,6 +4,8 @@ import '../core/game_session.dart';
 import '../games/registry.dart';
 import 'localization.dart';
 import 'motion_settings.dart';
+import 'player_setup_screen.dart';
+import 'scoreboard_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,6 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(strings.text('app.title')),
         actions: [
+          IconButton(
+            tooltip: strings.text('scoreboard.title'),
+            icon: const Icon(Icons.leaderboard),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => const ScoreboardScreen(),
+            )),
+          ),
           IconButton(
             tooltip: strings.text('settings.title'),
             icon: const Icon(Icons.settings),
@@ -74,10 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     trailing:
                         isNewGame(game) ? Text(strings.text('game.new')) : null,
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => game.buildPreview(
-                        context,
-                        GameSession(
-                            playerCount: tier.minPlayers, gameId: game.id),
+                      builder: (_) => PlayerSetupScreen(
+                        game: game,
+                        playerCount: tier.minPlayers,
                       ),
                     )),
                   ),

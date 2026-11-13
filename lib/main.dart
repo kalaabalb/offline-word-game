@@ -47,7 +47,10 @@ class MyApp extends StatelessWidget {
           final args = ModalRoute.of(context)!.settings.arguments;
           final setId =
               args is Map<String, dynamic> ? args['setId'] : args as int;
-          return TriangleScreen(setId: setId);
+          final playerNames = args is Map<String, dynamic>
+              ? List<String>.from(args['playerNames'] ?? const [])
+              : const <String>[];
+          return TriangleScreen(setId: setId, playerNames: playerNames);
         },
         '/start': (context) => const StartScreen(),
         '/question': (context) => const QuestionScreen(),

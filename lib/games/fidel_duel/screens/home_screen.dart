@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../app/localization.dart';
+import '../../../core/game_session.dart';
 import '../services/data_service.dart';
 import '../widgets/numbered_box.dart';
 
 class FidelDuelLibraryScreen extends StatefulWidget {
-  const FidelDuelLibraryScreen({super.key});
+  const FidelDuelLibraryScreen({required this.session, super.key});
+
+  final GameSession session;
 
   @override
   State<FidelDuelLibraryScreen> createState() => _HomeScreenState();
@@ -114,7 +117,10 @@ class _HomeScreenState extends State<FidelDuelLibraryScreen> {
                           Navigator.pushNamed(
                             context,
                             '/triangle',
-                            arguments: set.id,
+                            arguments: {
+                              'setId': set.id,
+                              'playerNames': widget.session.playerNames,
+                            },
                           );
                         },
                       );
