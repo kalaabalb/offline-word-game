@@ -1,0 +1,47 @@
+# AGENTS.md
+
+Instructions for AI coding agents (Codex and others) working in this repo.
+
+## What this project is
+
+Jebena: an offline Flutter party-games app in Amharic. The repo currently holds one game (a two-team word quiz). The goal is a shell that hosts many small games, grouped by player count. Read [docs/SPEC.md](docs/SPEC.md) before changing anything.
+
+## Hard rules
+
+- Open one pull request per milestone. Never push to the default branch. Never merge.
+- No secrets, no analytics or ad SDKs, and no network permission in v1.
+- Original art, names and sounds only. Do not use TV-show names, logos or channel branding in code, assets, README or store text.
+- Do not invent rules for a game the author has not specified. Implement the simplest common version, document the variant in the game's README section, and list it under "Needs author confirmation" in the PR.
+- Do not delete branches or repos. Renaming the repo to `jebena` is allowed (`gh repo rename jebena`).
+- Every new dependency needs a one-line reason in `docs/DEPENDENCIES.md`.
+
+## Known cleanup (milestone 1)
+
+- The Dart package name in `pubspec.yaml` is `man_yashenfal`, which is a TV-show name. Rename it to `jebena` and update imports.
+- Remove `pubspec.yaml.bak`.
+- The home screen title is a hard-coded show-style title; move all UI strings into a localization layer (Amharic first, English second).
+- Add tests for the quiz scoring logic before moving it into `lib/games/`.
+- Default branch is `master`; keep it.
+
+## Target architecture
+
+```text
+lib/
+  app/        shell, routing, theme, player-count picker, scoreboard
+  core/       JebenaGame, GameSession, audio, haptics, storage
+  games/      one folder per game, plus registry.dart
+  content/    (assets) JSON question packs per game and language
+```
+
+`JebenaGame` declares `id`, `title` (am/en), `minPlayers`, `maxPlayers`, `addedOn`, `buildPreview()` and `buildGame(GameSession)`. A new game is one folder plus one line in `registry.dart`.
+
+## Quality bar
+
+- `flutter analyze` clean and `flutter test` passing.
+- Release APK under 20 MB per architecture (a target; measure and report it in each PR).
+- 60 FPS on a 2 GB RAM Android phone.
+- Tap targets of at least 48 dp; a reduced-motion setting.
+
+## Reporting
+
+When a milestone is finished, reply with the PR link, APK size, test results, and the list of items needing author confirmation.
