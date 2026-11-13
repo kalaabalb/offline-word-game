@@ -64,6 +64,8 @@ const _english = <String, String>{
   'set.start': 'Start',
   'set.tip': 'Tip: prepare your words and clues before you begin.',
   'set.listTitle': 'Question sets',
+  'settings.title': 'Settings',
+  'settings.reducedMotion': 'Reduce motion',
 };
 
 const _amharic = <String, String>{
@@ -111,4 +113,6 @@ const _amharic = <String, String>{
   'set.start': 'ጀምር',
   'set.tip': 'ጠቃሚ: ከመጀመርዎ በፊት ቃላትዎንና ፍንጮችዎን ያዘጋጁ።',
   'set.listTitle': 'የጥያቄ ስብስቦች',
+  'settings.title': 'ቅንብሮች',
+  'settings.reducedMotion': 'እንቅስቃሴን ቀንስ',
 };

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../core/game_session.dart';
 import '../games/registry.dart';
 import 'localization.dart';
+import 'motion_settings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,7 +20,33 @@ class _HomeScreenState extends State<HomeScreen> {
     final games = gamesForTier(tier);
     final strings = AppStrings.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(strings.text('app.title'))),
+      appBar: AppBar(
+        title: Text(strings.text('app.title')),
+        actions: [
+          IconButton(
+            tooltip: strings.text('settings.title'),
+            icon: const Icon(Icons.settings),
+            onPressed: () async {
+              await MotionSettings.load();
+              if (!context.mounted) return;
+              showDialog<void>(
+                context: context,
+                builder: (dialogContext) => AlertDialog(
+                  title: Text(strings.text('settings.title')),
+                  content: ValueListenableBuilder<bool>(
+                    valueListenable: MotionSettings.reducedMotion,
+                    builder: (context, value, _) => SwitchListTile(
+                      title: Text(strings.text('settings.reducedMotion')),
+                      value: value,
+                      onChanged: MotionSettings.setReducedMotion,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [

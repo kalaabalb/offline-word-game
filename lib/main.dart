@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'app/home_screen.dart';
 import 'app/localization.dart';
+import 'app/app_theme.dart';
+import 'app/motion_settings.dart';
 import 'games/fidel_duel/screens/triangle_screen.dart';
 import 'games/fidel_duel/screens/start_screen.dart';
 import 'games/fidel_duel/screens/question_screen.dart';
@@ -11,6 +13,7 @@ import 'games/fidel_duel/services/data_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DataService().loadGameSets();
+  await MotionSettings.load();
   runApp(const MyApp());
 }
 
@@ -27,9 +30,15 @@ class MyApp extends StatelessWidget {
         if (locale?.languageCode == 'en') return const Locale('en');
         return const Locale('am');
       },
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+      theme: JebenaTheme.dark,
+      builder: (context, child) => ValueListenableBuilder<bool>(
+        valueListenable: MotionSettings.reducedMotion,
+        builder: (context, reducedMotion, child) => MediaQuery(
+          data:
+              MediaQuery.of(context).copyWith(disableAnimations: reducedMotion),
+          child: TickerMode(enabled: !reducedMotion, child: child!),
+        ),
+        child: child,
       ),
       initialRoute: '/',
       routes: {
