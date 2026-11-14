@@ -30,4 +30,11 @@ void main() {
       throwsArgumentError,
     );
   });
+
+  test('renders the date with Arabic digits', () {
+    expect(
+      const EthiopianDate(year: 2019, month: 1, day: 2).toString(),
+      '2 መስከረም 2019',
+    );
+  });
 }
