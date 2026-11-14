@@ -5,8 +5,8 @@ void main() {
   testWidgets('the app opens on the player tier picker', (tester) async {
     await tester.pumpWidget(const MyApp());
 
-    expect(find.text('How many are playing?'), findsOneWidget);
-    expect(find.text('Solo'), findsOneWidget);
-    expect(find.text('Party'), findsOneWidget);
+    expect(find.text('ስንት ሰዎች ይጫወታሉ?'), findsOneWidget);
+    expect(find.text('ብቻ'), findsOneWidget);
+    expect(find.text('ስድስት እና ከዚያ በላይ'), findsOneWidget);
   });
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app/home_screen.dart';
 import 'app/localization.dart';
 import 'app/app_theme.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         onGenerateTitle: (context) => AppStrings.of(context).text('app.title'),
         supportedLocales: const [Locale('am'), Locale('en')],
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
         locale: locale,
         theme: JebenaTheme.dark,
         builder: (context, child) => ValueListenableBuilder<bool>(
