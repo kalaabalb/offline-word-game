@@ -1,3 +1,4 @@
+import '../../../app/app_theme.dart';
 import 'package:flutter/material.dart';
 import '../../../app/localization.dart';
 
@@ -16,7 +17,7 @@ class StartScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFF4A148C), Color(0xFF880E4F)],
+            colors: [JebenaTheme.background, JebenaTheme.surface],
           ),
         ),
         child: Center(
@@ -34,7 +35,7 @@ class StartScreen extends StatelessWidget {
               const SizedBox(height: 40),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.amber,
+                  backgroundColor: JebenaTheme.saffron,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                   shape: RoundedRectangleBorder(

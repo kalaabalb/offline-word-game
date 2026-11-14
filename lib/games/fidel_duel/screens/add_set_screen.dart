@@ -1,3 +1,4 @@
+import '../../../app/app_theme.dart';
 import 'package:flutter/material.dart';
 import '../../../app/localization.dart';
 import '../services/data_service.dart';
@@ -60,18 +61,18 @@ class _AddSetScreenState extends State<AddSetScreen> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: JebenaTheme.surface,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.deepPurple.shade800,
-              Colors.indigo.shade900,
+              JebenaTheme.surface,
+              JebenaTheme.background,
             ],
           ),
         ),
@@ -96,7 +97,7 @@ class _AddSetScreenState extends State<AddSetScreen> {
                       const Icon(
                         Icons.add_circle_outline,
                         size: 80,
-                        color: Colors.amber,
+                        color: JebenaTheme.saffron,
                       ),
                       const SizedBox(height: 20),
                       Text(
@@ -122,13 +123,14 @@ class _AddSetScreenState extends State<AddSetScreen> {
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 40, vertical: 18),
-                          backgroundColor: Colors.amber,
-                          foregroundColor: Colors.deepPurple,
+                          backgroundColor: JebenaTheme.saffron,
+                          foregroundColor: JebenaTheme.surface,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                           elevation: 5,
-                          shadowColor: Colors.amber.withValues(alpha: 0.5),
+                          shadowColor:
+                              JebenaTheme.saffron.withValues(alpha: 0.5),
                         ),
                         onPressed: _addQuestion,
                         child: Text(

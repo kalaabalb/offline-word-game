@@ -1,3 +1,4 @@
+import '../../../app/app_theme.dart';
 import 'package:flutter/material.dart';
 import '../../../app/localization.dart';
 import '../models/question.dart';
@@ -75,14 +76,14 @@ class _AddQuestionScreenState extends State<AddQuestionScreen> {
       appBar: AppBar(
         title:
             Text(strings.text('question.title', {'index': currentIndex + 1})),
-        backgroundColor: Colors.blue,
+        backgroundColor: JebenaTheme.terracotta,
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFFE3F2FD), Color(0xFFBBDEFB)],
+            colors: [JebenaTheme.surface, JebenaTheme.background],
           ),
         ),
         child: Padding(

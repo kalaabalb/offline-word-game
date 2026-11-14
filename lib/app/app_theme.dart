@@ -21,12 +21,18 @@ class JebenaTheme {
         ),
         fontFamily: 'NotoSansEthiopic',
         textTheme: const TextTheme(
-          bodyLarge: TextStyle(color: cream, fontSize: 18),
-          bodyMedium: TextStyle(color: cream, fontSize: 16),
+          bodyLarge: TextStyle(color: cream, fontSize: 18, height: 1.4),
+          bodyMedium: TextStyle(color: cream, fontSize: 16, height: 1.4),
           titleLarge: TextStyle(
-              color: cream, fontSize: 24, fontWeight: FontWeight.bold),
+              color: cream,
+              fontSize: 24,
+              height: 1.4,
+              fontWeight: FontWeight.bold),
           headlineMedium: TextStyle(
-              color: cream, fontSize: 30, fontWeight: FontWeight.bold),
+              color: cream,
+              fontSize: 30,
+              height: 1.4,
+              fontWeight: FontWeight.bold),
         ),
         appBarTheme: const AppBarTheme(
           backgroundColor: background,

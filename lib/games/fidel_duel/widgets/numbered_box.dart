@@ -1,3 +1,4 @@
+import '../../../app/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class NumberedBox extends StatefulWidget {
@@ -33,23 +34,23 @@ class _NumberedBoxState extends State<NumberedBox> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Colors.tealAccent.shade400,
-                Colors.blueAccent.shade700,
+                JebenaTheme.saffron,
+                JebenaTheme.terracotta,
               ],
             ),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.tealAccent.withValues(alpha: 0.5),
+                color: JebenaTheme.saffron.withValues(alpha: 0.5),
                 blurRadius: 12,
                 offset: const Offset(0, 6),
               ),
               BoxShadow(
-                color: Colors.blueAccent.withValues(alpha: 0.3),
+                color: JebenaTheme.terracotta.withValues(alpha: 0.3),
                 blurRadius: 18,
                 offset: const Offset(0, 12),
               ),

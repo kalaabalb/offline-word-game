@@ -1,3 +1,4 @@
+import '../../../app/app_theme.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../app/localization.dart';
@@ -169,11 +170,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
               decoration: BoxDecoration(
                 color: answered[currentAnswerIndex]
                     ? Colors.green[50]
-                    : Colors.blue[50],
+                    : JebenaTheme.surface,
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(
-                  color:
-                      answered[currentAnswerIndex] ? Colors.green : Colors.blue,
+                  color: answered[currentAnswerIndex]
+                      ? Colors.green
+                      : JebenaTheme.terracotta,
                   width: 2,
                 ),
               ),
@@ -185,7 +187,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   fontWeight: FontWeight.bold,
                   color: answered[currentAnswerIndex]
                       ? Colors.green[800]
-                      : Colors.blue[800],
+                      : JebenaTheme.cream,
                 ),
               ),
             ),
@@ -231,7 +233,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      side: const BorderSide(color: Colors.blue),
+                      side: const BorderSide(color: JebenaTheme.terracotta),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -242,7 +244,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: JebenaTheme.terracotta,
                       ),
                     ),
                   ),
@@ -333,7 +335,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 const SizedBox(height: 30),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: JebenaTheme.terracotta,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 15),
                   ),

@@ -1,3 +1,4 @@
+import '../../../app/app_theme.dart';
 import 'package:flutter/material.dart';
 import '../../../app/localization.dart';
 import '../../../core/game_session.dart';
@@ -150,7 +151,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(strings.text('quiz.prepare', {'set': widget.setId})),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: JebenaTheme.surface,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
@@ -161,7 +162,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFF4A90E2), Color(0xFF50E3C2)],
+            colors: [JebenaTheme.surface, JebenaTheme.terracotta],
           ),
         ),
         child: Center(
@@ -200,7 +201,9 @@ class _TriangleScreenState extends State<TriangleScreen> {
                   children: [
                     TriangleBox(
                       text: gameSet.questions[0].word,
-                      color: playedQuestions[0] ? Colors.grey : Colors.purple,
+                      color: playedQuestions[0]
+                          ? Colors.grey
+                          : JebenaTheme.saffron,
                       onTap: () => _navigateToQuestion(0),
                       enabled: currentTeam != null && !playedQuestions[0],
                     ),
@@ -213,7 +216,9 @@ class _TriangleScreenState extends State<TriangleScreen> {
                   children: [
                     TriangleBox(
                       text: gameSet.questions[1].word,
-                      color: playedQuestions[1] ? Colors.grey : Colors.blue,
+                      color: playedQuestions[1]
+                          ? Colors.grey
+                          : JebenaTheme.terracotta,
                       onTap: () => _navigateToQuestion(1),
                       enabled: currentTeam != null && !playedQuestions[1],
                     ),
@@ -301,7 +306,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: currentTeam == teamName
-                ? (isTeam1 ? Colors.blue : Colors.green)
+                ? (isTeam1 ? JebenaTheme.terracotta : Colors.green)
                 : Colors.grey,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             shape: RoundedRectangleBorder(

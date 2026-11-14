@@ -1,3 +1,4 @@
+import '../../../app/app_theme.dart';
 import 'package:flutter/material.dart';
 import '../../../app/localization.dart';
 import '../../../core/game_session.dart';
@@ -60,16 +61,16 @@ class _HomeScreenState extends State<FidelDuelLibraryScreen> {
           // Animated Gradient Background
           AnimatedContainer(
             duration: const Duration(seconds: 10),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: SweepGradient(
                 center: Alignment.center,
                 colors: [
-                  Colors.blue.shade800,
-                  Colors.purple.shade600,
-                  Colors.deepOrange.shade400,
-                  Colors.blue.shade800,
+                  JebenaTheme.terracotta,
+                  JebenaTheme.saffron,
+                  JebenaTheme.terracotta,
+                  JebenaTheme.terracotta,
                 ],
-                stops: const [0.0, 0.3, 0.6, 1.0],
+                stops: [0.0, 0.3, 0.6, 1.0],
               ),
             ),
           ),
