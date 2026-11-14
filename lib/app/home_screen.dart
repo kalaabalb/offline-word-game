@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../games/registry.dart';
+import 'jebena_pattern_border.dart';
 import 'localization.dart';
 import 'motion_settings.dart';
 import 'player_setup_screen.dart';
@@ -82,7 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
           if (games.isEmpty)
             Text(strings.text('home.empty'))
           else
-            ...games.map((game) => Card(
+            ...games.map((game) => JebenaPatternBorder(
+                    child: Card(
                   child: ListTile(
                     title:
                         Text(strings.isEnglish ? game.titleEn : game.titleAm),
@@ -95,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     )),
                   ),
-                )),
+                ))),
         ],
       ),
     );
