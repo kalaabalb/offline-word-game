@@ -26,7 +26,7 @@ enum PlayerTier {
       };
 }
 
-List<JebenaGame> gamesForTier(PlayerTier tier, {DateTime? now}) {
+List<JebenaGame> gamesForTier(PlayerTier tier) {
   return gameRegistry
       .where((game) =>
           game.minPlayers <= tier.maxPlayers &&
