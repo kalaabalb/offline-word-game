@@ -38,7 +38,11 @@ jobs:
               exit 1
             fi
           done
-          if rg -n 'android.permission.INTERNET' android/app/src; then
-            echo 'Network permission is forbidden in this app.' >&2
+          manifests=(android/app/src/main/AndroidManifest.xml)
+          if [[ -f android/app/src/release/AndroidManifest.xml ]]; then
+            manifests+=(android/app/src/release/AndroidManifest.xml)
+          fi
+          if rg -n 'android.permission.INTERNET' "${manifests[@]}"; then
+            echo 'Network permission is forbidden in main and release manifests.' >&2
             exit 1
           fi
