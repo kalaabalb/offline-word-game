@@ -76,6 +76,12 @@ const _english = <String, String>{
   'team.two': 'Team 2',
   'winner.team': '{team} wins! ({score} - {otherScore})',
   'winner.draw': 'Draw! ({score} - {otherScore})',
+  'scoreboard.total': 'Evening total: {score}',
+  'scoreboard.newEvening': 'New evening',
+  'scoreboard.resetConfirm':
+      'Start a new evening and clear all current scores?',
+  'scoreboard.reset': 'Start new evening',
+  'game.unknown': 'Game',
 };
 
 const _amharic = <String, String>{
@@ -135,4 +141,9 @@ const _amharic = <String, String>{
   'team.two': 'ቡድን 2',
   'winner.team': '{team} አሸንፈዋል! ({score} - {otherScore})',
   'winner.draw': 'አቻ! ({score} - {otherScore})',
+  'scoreboard.total': 'የምሽቱ ድምር: {score}',
+  'scoreboard.newEvening': 'አዲስ ምሽት',
+  'scoreboard.resetConfirm': 'አዲስ ምሽት ጀምረው የአሁኑን ውጤት ማጽዳት ይፈልጋሉ?',
+  'scoreboard.reset': 'አዲስ ምሽት ጀምር',
+  'game.unknown': 'ጨዋታ',
 };
