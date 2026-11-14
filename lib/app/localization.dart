@@ -1,5 +1,26 @@
 import 'package:flutter/widgets.dart';
 
+import '../core/storage.dart';
+
+class AppLanguage {
+  AppLanguage._();
+
+  static final ValueNotifier<Locale> locale =
+      ValueNotifier<Locale>(const Locale('am'));
+
+  static Future<void> load() async {
+    if (await const JebenaStorage().readString('language') == 'en') {
+      locale.value = const Locale('en');
+    }
+  }
+
+  static Future<void> toggle() async {
+    locale.value = Locale(locale.value.languageCode == 'am' ? 'en' : 'am');
+    await const JebenaStorage()
+        .writeString('language', locale.value.languageCode);
+  }
+}
+
 /// Small offline translation table. Amharic is the fallback language.
 class AppStrings {
   AppStrings._(this.isEnglish);
@@ -94,6 +115,8 @@ const _english = <String, String>{
   'session.chooseGame': 'Choose a game for this round',
   'calendar.gregorian': 'Use Gregorian dates',
   'calendar.ethiopian': 'Use Ethiopian dates',
+  'language.toEnglish': 'በእንግሊዝኛ ይቀይሩ',
+  'language.toAmharic': 'በአማርኛ ይቀይሩ',
 };
 
 const _amharic = <String, String>{
@@ -170,4 +193,6 @@ const _amharic = <String, String>{
   'session.chooseGame': 'ለዚህ ዙር ጨዋታ ይምረጡ',
   'calendar.gregorian': 'የጎርጎርዮሳዊ ቀን ይጠቀሙ',
   'calendar.ethiopian': 'የኢትዮጵያ ቀን ይጠቀሙ',
+  'language.toEnglish': 'Switch to English',
+  'language.toAmharic': 'Switch to Amharic',
 };

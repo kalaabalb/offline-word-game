@@ -15,6 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DataService().loadGameSets();
   await MotionSettings.load();
+  await AppLanguage.load();
   runApp(const MyApp());
 }
 
@@ -23,48 +24,48 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateTitle: (context) => AppStrings.of(context).text('app.title'),
-      supportedLocales: const [Locale('am'), Locale('en')],
-      localeResolutionCallback: (locale, supportedLocales) {
-        if (locale?.languageCode == 'en') return const Locale('en');
-        return const Locale('am');
-      },
-      theme: JebenaTheme.dark,
-      builder: (context, child) => ValueListenableBuilder<bool>(
-        valueListenable: MotionSettings.reducedMotion,
-        builder: (context, reducedMotion, child) => MediaQuery(
-          data:
-              MediaQuery.of(context).copyWith(disableAnimations: reducedMotion),
-          child: TickerMode(enabled: !reducedMotion, child: child!),
+    return ValueListenableBuilder<Locale>(
+      valueListenable: AppLanguage.locale,
+      builder: (context, locale, _) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        onGenerateTitle: (context) => AppStrings.of(context).text('app.title'),
+        supportedLocales: const [Locale('am'), Locale('en')],
+        locale: locale,
+        theme: JebenaTheme.dark,
+        builder: (context, child) => ValueListenableBuilder<bool>(
+          valueListenable: MotionSettings.reducedMotion,
+          builder: (context, reducedMotion, child) => MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(disableAnimations: reducedMotion),
+            child: TickerMode(enabled: !reducedMotion, child: child!),
+          ),
+          child: child,
         ),
-        child: child,
-      ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomeScreen(),
-        '/triangle': (context) {
-          final args = ModalRoute.of(context)!.settings.arguments;
-          final setId =
-              args is Map<String, dynamic> ? args['setId'] : args as int;
-          final playerNames = args is Map<String, dynamic>
-              ? List<String>.from(args['playerNames'] ?? const [])
-              : const <String>[];
-          final session = args is Map<String, dynamic>
-              ? args['session'] as GameSession?
-              : null;
-          return TriangleScreen(
-            setId: setId,
-            playerNames: playerNames,
-            session: session,
-          );
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const HomeScreen(),
+          '/triangle': (context) {
+            final args = ModalRoute.of(context)!.settings.arguments;
+            final setId =
+                args is Map<String, dynamic> ? args['setId'] : args as int;
+            final playerNames = args is Map<String, dynamic>
+                ? List<String>.from(args['playerNames'] ?? const [])
+                : const <String>[];
+            final session = args is Map<String, dynamic>
+                ? args['session'] as GameSession?
+                : null;
+            return TriangleScreen(
+              setId: setId,
+              playerNames: playerNames,
+              session: session,
+            );
+          },
+          '/start': (context) => const StartScreen(),
+          '/question': (context) => const QuestionScreen(),
+          '/add_set': (context) => const AddSetScreen(),
+          '/add_question': (context) => const AddQuestionScreen(),
         },
-        '/start': (context) => const StartScreen(),
-        '/question': (context) => const QuestionScreen(),
-        '/add_set': (context) => const AddSetScreen(),
-        '/add_question': (context) => const AddQuestionScreen(),
-      },
+      ),
     );
   }
 }

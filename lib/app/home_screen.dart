@@ -25,6 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(strings.text('app.title')),
         actions: [
           IconButton(
+            tooltip: strings.text(
+              strings.isEnglish ? 'language.toAmharic' : 'language.toEnglish',
+            ),
+            icon: const Icon(Icons.translate),
+            onPressed: AppLanguage.toggle,
+          ),
+          IconButton(
             tooltip: strings.text('scoreboard.title'),
             icon: const Icon(Icons.leaderboard),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(

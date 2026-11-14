@@ -148,8 +148,9 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
 
   String _formatDate(DateTime dateTime) {
     final date = dateTime.toLocal();
-    if (_useEthiopianCalendar)
+    if (_useEthiopianCalendar) {
       return EthiopianCalendar.fromGregorian(date).toString();
+    }
     return '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 
