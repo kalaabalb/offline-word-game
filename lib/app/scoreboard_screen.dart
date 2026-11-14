@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/score_entry.dart';
+import '../core/ethiopian_calendar.dart';
 import '../core/storage.dart';
 import '../games/registry.dart';
 import 'localization.dart';
@@ -14,6 +15,7 @@ class ScoreboardScreen extends StatefulWidget {
 
 class _ScoreboardScreenState extends State<ScoreboardScreen> {
   late Future<List<ScoreEntry>> _scores = _load();
+  bool _useEthiopianCalendar = true;
 
   Future<List<ScoreEntry>> _load() async =>
       (await const JebenaStorage().readJsonList('scoreboard'))
@@ -46,12 +48,35 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _scores = _load();
+    _loadCalendarPreference();
+  }
+
+  Future<void> _loadCalendarPreference() async {
+    final preference =
+        await const JebenaStorage().readString('scoreboard_calendar');
+    if (!mounted || preference == null) return;
+    setState(() => _useEthiopianCalendar = preference != 'gregorian');
+  }
+
+  @override
   Widget build(BuildContext context) {
     final strings = AppStrings.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(strings.text('scoreboard.title')),
         actions: [
+          IconButton(
+            tooltip: strings.text(
+              _useEthiopianCalendar
+                  ? 'calendar.gregorian'
+                  : 'calendar.ethiopian',
+            ),
+            onPressed: _toggleCalendar,
+            icon: const Icon(Icons.calendar_month),
+          ),
           TextButton.icon(
             onPressed: _startNewEvening,
             icon: const Icon(Icons.restart_alt),
@@ -98,11 +123,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                             contentPadding: EdgeInsets.zero,
                             title:
                                 Text(_gameTitle(result.entry.gameId, strings)),
-                            subtitle: Text(result.entry.playedAt
-                                .toLocal()
-                                .toString()
-                                .split('.')
-                                .first),
+                            subtitle: Text(_formatDate(result.entry.playedAt)),
                             trailing: Text('${result.score}'),
                           ),
                       ],
@@ -115,6 +136,21 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
         },
       ),
     );
+  }
+
+  Future<void> _toggleCalendar() async {
+    setState(() => _useEthiopianCalendar = !_useEthiopianCalendar);
+    await const JebenaStorage().writeString(
+      'scoreboard_calendar',
+      _useEthiopianCalendar ? 'ethiopian' : 'gregorian',
+    );
+  }
+
+  String _formatDate(DateTime dateTime) {
+    final date = dateTime.toLocal();
+    if (_useEthiopianCalendar)
+      return EthiopianCalendar.fromGregorian(date).toString();
+    return '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 
   int _total(List<({ScoreEntry entry, int score})> entries) =>

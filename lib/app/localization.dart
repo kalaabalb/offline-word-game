@@ -92,6 +92,8 @@ const _english = <String, String>{
   'session.roundComplete': 'Round complete',
   'session.eveningComplete': 'Evening complete',
   'session.chooseGame': 'Choose a game for this round',
+  'calendar.gregorian': 'Use Gregorian dates',
+  'calendar.ethiopian': 'Use Ethiopian dates',
 };
 
 const _amharic = <String, String>{
@@ -166,4 +168,6 @@ const _amharic = <String, String>{
   'session.roundComplete': 'ዙሩ ተጠናቋል',
   'session.eveningComplete': 'ምሽቱ ተጠናቋል',
   'session.chooseGame': 'ለዚህ ዙር ጨዋታ ይምረጡ',
+  'calendar.gregorian': 'የጎርጎርዮሳዊ ቀን ይጠቀሙ',
+  'calendar.ethiopian': 'የኢትዮጵያ ቀን ይጠቀሙ',
 };
