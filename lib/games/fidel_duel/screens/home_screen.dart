@@ -120,8 +120,13 @@ class _HomeScreenState extends State<FidelDuelLibraryScreen> {
                             arguments: {
                               'setId': set.id,
                               'playerNames': widget.session.playerNames,
+                              'session': widget.session,
                             },
-                          );
+                          ).then((completed) {
+                            if (completed == true && context.mounted) {
+                              Navigator.of(context).pop(true);
+                            }
+                          });
                         },
                       );
                     },

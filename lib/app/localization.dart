@@ -85,6 +85,13 @@ const _english = <String, String>{
   'quiz.turn': "{team}'s turn",
   'quiz.scoreLabel': 'Score: {score}',
   'question.answeredButton': 'Answered ({count}/7)',
+  'session.round': 'Round {round} of 3',
+  'session.startRound': 'Play round {round}',
+  'session.nextRound': 'Continue to next round',
+  'session.finish': 'Finish evening',
+  'session.roundComplete': 'Round complete',
+  'session.eveningComplete': 'Evening complete',
+  'session.chooseGame': 'Choose a game for this round',
 };
 
 const _amharic = <String, String>{
@@ -152,4 +159,11 @@ const _amharic = <String, String>{
   'quiz.turn': 'የ{team} ተራ',
   'quiz.scoreLabel': 'ነጥብ: {score}',
   'question.answeredButton': 'የተመለሱት ({count}/7)',
+  'session.round': 'ዙር {round} ከ3',
+  'session.startRound': 'ዙር {round} ይጫወቱ',
+  'session.nextRound': 'ወደ ቀጣዩ ዙር ይቀጥሉ',
+  'session.finish': 'ምሽቱን ጨርስ',
+  'session.roundComplete': 'ዙሩ ተጠናቋል',
+  'session.eveningComplete': 'ምሽቱ ተጠናቋል',
+  'session.chooseGame': 'ለዚህ ዙር ጨዋታ ይምረጡ',
 };

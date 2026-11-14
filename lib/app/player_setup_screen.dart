@@ -5,6 +5,7 @@ import '../core/jebena_game.dart';
 import '../core/player_profile.dart';
 import '../core/storage.dart';
 import 'localization.dart';
+import 'session_flow_screen.dart';
 
 class PlayerSetupScreen extends StatefulWidget {
   const PlayerSetupScreen({
@@ -76,7 +77,10 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
       gameId: widget.game.id,
     );
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (_) => widget.game.buildPreview(context, session),
+      builder: (_) => GameSessionFlowScreen(
+        game: widget.game,
+        session: session,
+      ),
     ));
   }
 

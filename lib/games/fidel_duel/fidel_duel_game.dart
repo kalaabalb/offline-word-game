@@ -54,9 +54,16 @@ class _FidelDuelPreview extends StatelessWidget {
               Text(AppStrings.of(context).text('game.summary')),
               const SizedBox(height: 24),
               FilledButton(
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => game.buildGame(context, session),
-                )),
+                onPressed: () async {
+                  final completed = await Navigator.of(context).push<bool>(
+                    MaterialPageRoute(
+                      builder: (_) => game.buildGame(context, session),
+                    ),
+                  );
+                  if (completed == true && context.mounted) {
+                    Navigator.of(context).pop(true);
+                  }
+                },
                 child: Text(AppStrings.of(context).text('game.chooseSet')),
               ),
             ],

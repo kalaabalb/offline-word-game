@@ -3,6 +3,7 @@ import 'app/home_screen.dart';
 import 'app/localization.dart';
 import 'app/app_theme.dart';
 import 'app/motion_settings.dart';
+import 'core/game_session.dart';
 import 'games/fidel_duel/screens/triangle_screen.dart';
 import 'games/fidel_duel/screens/start_screen.dart';
 import 'games/fidel_duel/screens/question_screen.dart';
@@ -50,7 +51,14 @@ class MyApp extends StatelessWidget {
           final playerNames = args is Map<String, dynamic>
               ? List<String>.from(args['playerNames'] ?? const [])
               : const <String>[];
-          return TriangleScreen(setId: setId, playerNames: playerNames);
+          final session = args is Map<String, dynamic>
+              ? args['session'] as GameSession?
+              : null;
+          return TriangleScreen(
+            setId: setId,
+            playerNames: playerNames,
+            session: session,
+          );
         },
         '/start': (context) => const StartScreen(),
         '/question': (context) => const QuestionScreen(),

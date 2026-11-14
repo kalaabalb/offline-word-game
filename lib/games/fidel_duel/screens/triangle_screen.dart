@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../app/localization.dart';
-import '../../../core/score_entry.dart';
-import '../../../core/storage.dart';
+import '../../../core/game_session.dart';
 import '../services/data_service.dart';
 import '../widgets/triangle_box.dart';
 import '../models/game_set.dart';
@@ -9,9 +8,13 @@ import '../models/game_set.dart';
 class TriangleScreen extends StatefulWidget {
   final int setId;
   final List<String> playerNames;
+  final GameSession? session;
 
   const TriangleScreen(
-      {super.key, required this.setId, this.playerNames = const []});
+      {super.key,
+      required this.setId,
+      this.playerNames = const [],
+      this.session});
 
   @override
   State<TriangleScreen> createState() => _TriangleScreenState();
@@ -59,6 +62,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
         'setId': widget.setId,
         'questionIndex': questionIndex,
         'currentTeam': currentTeam,
+        'session': widget.session,
       },
     ).then((shouldProceed) {
       if (mounted && shouldProceed == true) {
@@ -69,6 +73,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
             'setId': widget.setId,
             'questionIndex': questionIndex,
             'currentTeam': currentTeam,
+            'session': widget.session,
           },
         ).then((score) async {
           if (score != null) {
@@ -88,23 +93,14 @@ class _TriangleScreenState extends State<TriangleScreen> {
                 completed = true;
               }
             });
-            if (completed) await _saveScore();
+            if (completed) {
+              widget.session?.reportScore(team1Name, team1Score);
+              widget.session?.reportScore(team2Name, team2Score);
+            }
           }
         });
       }
     });
-  }
-
-  Future<void> _saveScore() async {
-    const storage = JebenaStorage();
-    final entries = await storage.readJsonList('scoreboard');
-    entries.add(ScoreEntry(
-      gameId: 'fidel_duel',
-      playedAt: DateTime.now(),
-      scores: {team1Name: team1Score, team2Name: team2Score},
-    ).toJson());
-    if (entries.length > 100) entries.removeRange(0, entries.length - 100);
-    await storage.writeJsonList('scoreboard', entries);
   }
 
   void _editTeamName(bool isTeam1) {
@@ -281,15 +277,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
                     ),
                     actions: [
                       TextButton(
-                        onPressed: () {
-                          setState(() {
-                            showWinner = false;
-                            currentTeam = null;
-                            team1Score = 0;
-                            team2Score = 0;
-                            playedQuestions = List.filled(6, false);
-                          });
-                        },
+                        onPressed: () => Navigator.of(context).pop(true),
                         child: Text(strings.text('quiz.playAgain')),
                       ),
                     ],
