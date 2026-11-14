@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../app/localization.dart';
 
 class AnswerButton extends StatelessWidget {
   final int count;
@@ -14,6 +15,7 @@ class AnswerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: isActive ? Colors.green : Colors.grey,
@@ -30,7 +32,7 @@ class AnswerButton extends StatelessWidget {
           const Icon(Icons.check_circle, color: Colors.white),
           const SizedBox(width: 8),
           Text(
-            "የተመለሱት ($count/7)",
+            strings.text('question.answeredButton', {'count': count}),
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

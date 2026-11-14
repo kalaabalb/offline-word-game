@@ -191,7 +191,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Text(
-                      "$currentTeam' ተራ",
+                      strings.text('quiz.turn', {'team': currentTeam!}),
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
@@ -333,7 +333,7 @@ class _TriangleScreenState extends State<TriangleScreen> {
         ),
         const SizedBox(height: 8),
         Text(
-          'ነጥብ: $score',
+          AppStrings.of(context).text('quiz.scoreLabel', {'score': score}),
           style: const TextStyle(
             fontSize: 16,
             color: Colors.white,

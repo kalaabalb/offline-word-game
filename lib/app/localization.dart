@@ -82,6 +82,9 @@ const _english = <String, String>{
       'Start a new evening and clear all current scores?',
   'scoreboard.reset': 'Start new evening',
   'game.unknown': 'Game',
+  'quiz.turn': "{team}'s turn",
+  'quiz.scoreLabel': 'Score: {score}',
+  'question.answeredButton': 'Answered ({count}/7)',
 };
 
 const _amharic = <String, String>{
@@ -146,4 +149,7 @@ const _amharic = <String, String>{
   'scoreboard.resetConfirm': 'አዲስ ምሽት ጀምረው የአሁኑን ውጤት ማጽዳት ይፈልጋሉ?',
   'scoreboard.reset': 'አዲስ ምሽት ጀምር',
   'game.unknown': 'ጨዋታ',
+  'quiz.turn': 'የ{team} ተራ',
+  'quiz.scoreLabel': 'ነጥብ: {score}',
+  'question.answeredButton': 'የተመለሱት ({count}/7)',
 };
